@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  * @author shrutisingala
  */
 public class Items {
-
+//just trying git
     /**
      * @param args the command line arguments
      * @throws java.io.IOException
@@ -38,7 +38,8 @@ public class Items {
 
             RSSFeedParser parser = new RSSFeedParser("http://www.gdacs.org/xml/rss.xml");
             Alerts alert = parser.readAlert();
-
+            
+           
             //System.out.println(alert);
             String publish_time = alert.alertTime.toString();
 
@@ -73,6 +74,7 @@ public class Items {
             if (out != null) {
                 out.close();
             }
+           
         }
 
     }

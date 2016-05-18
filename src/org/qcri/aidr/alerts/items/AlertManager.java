@@ -5,10 +5,16 @@
  */
 package org.qcri.aidr.alerts.items;
 
+import java.util.List;
+
 /**
  *
  * @author shrutisingala
  */
 public class AlertManager {
+    
+    public List<AlertMessage> getAlerts(List<AlertMessage> entries) {
+    return entries;
+    }
     
 }
