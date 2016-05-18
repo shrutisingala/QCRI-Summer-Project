@@ -134,7 +134,7 @@ public static void updatetype(int alert_id, String alert_type){
        }
 
 
-public static void main(String[] args) throws IOException { 
+/*public static void main(String[] args) throws IOException { 
     
              //createalerts3(1, "abc","hello", "hi", "New Jersey");
              //createalerts3(2, "Jones", "hshdd", "djbjd", "Jersey");
@@ -252,7 +252,5 @@ System.out.println("Connection closed");
 
 } 
 
-
-
         
-}
+//}

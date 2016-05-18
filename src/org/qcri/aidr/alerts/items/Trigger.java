@@ -5,36 +5,22 @@
  */
 package org.qcri.aidr.alerts.items;
 
-import org.qcri.aidr.alerts.items.*;
-
-import java.io.*;
-import java.text.DateFormat;
-import java.text.ParseException;
-
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 
 /**
  *
  * @author shrutisingala
  */
-public class Items {
-//just trying git
-    /**
-     * @param args the command line arguments
-     * @throws java.io.IOException
-     */
-    public static void main(String[] args) throws IOException {
+public class Trigger {
+    
+    
+   public List<AlertMessage> triggerParser(){
 
-        FileOutputStream out = null;
+        //FileOutputStream out = null;
 
-        try {
+      
 
-            out = new FileOutputStream("/Users/shrutisingala/Desktop/output.csv");
+           // out = new FileOutputStream("/Users/shrutisingala/Desktop/output.csv");
 
             RSSFeedParser parser = new RSSFeedParser("http://www.gdacs.org/xml/rss.xml");
             Alerts alert = parser.readAlert();
@@ -43,8 +29,8 @@ public class Items {
             //System.out.println(alert);
             String publish_time = alert.alertTime.toString();
 
-            String test;
-            test = alert.toString();
+           // String test;
+           /* test = alert.toString();
             int c, i = 0;
 
             while ((i != test.length())) {
@@ -65,18 +51,11 @@ public class Items {
                     ++i;
                 }
             }
-
+*/
             SaveFile sf = new SaveFile("http://www.gdacs.org/xml/rss.xml", publish_time);
             //trying out git
 
-        } finally {
-
-            if (out != null) {
-                out.close();
-            }
-           
-        }
+        return (List<AlertMessage>) alert;
 
     }
-
 }
