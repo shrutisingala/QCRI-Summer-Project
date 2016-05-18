@@ -31,6 +31,7 @@ public class Alerts {
   }
 
   public List<AlertMessage> getMessages() {
+      //System.out.println(entries);
     return entries;
   }
 

@@ -1,5 +1,6 @@
 package org.qcri.aidr.alerts.sql;
 
+import org.qcri.aidr.alerts.items.*;
 import java.sql.*;
 import java.io.*; 
 import java.lang.*;
@@ -250,4 +251,8 @@ System.out.println("Connection closed");
 
 
 } 
+
+
+
+        
 }
