@@ -39,9 +39,7 @@ public class Items {
             RSSFeedParser parser = new RSSFeedParser("http://www.gdacs.org/xml/rss.xml");
             Alerts alert = parser.readAlert();
             
-            AlertManager am = new AlertManager();
-           am.getAlerts(alert.entries);
-
+           
             //System.out.println(alert);
             String publish_time = alert.alertTime.toString();
 
