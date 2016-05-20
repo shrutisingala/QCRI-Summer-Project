@@ -30,7 +30,10 @@ public class DBManager {
                 System.out.println("1 record inserted...");
             }
         } catch (SQLException sqlEx) {
+
             // sqlEx.printStackTrace();
+
+
             System.out.println("hey there");
             System.exit(1);
         } /*catch (ClassNotFoundException clsNotFoundEx) {
@@ -154,9 +157,15 @@ public class DBManager {
     Statement statement = null; 
     PreparedStatement preparedStatement = null; */
 
+
     /*try{ 
     //CONNECTING TO THE DATABASE 
     myConnection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD); 
+
+ /*try{ 
+//CONNECTING TO THE DATABASE 
+myConnection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD); 
+
 
 
 System.out.println("Connected to database"); //CONNECTED 
