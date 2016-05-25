@@ -11,7 +11,7 @@ public class DBManager {
 //http://www.tutorialspoint.com/jdbc/jdbc-create-tables.htm 
     final private static String JDBC_URL = "jdbc:mysql://localhost:3306/mudra";
     final private static String USER = "root";
-    final private static String PASSWORD = "shruti";
+    final private static String PASSWORD = "salvivado123";
 
     public static void createmaster_alerts(int alert_id, String alert_type, String alert_time, String alert_severity, String alert_population) {
         Connection connection = null;
@@ -26,9 +26,9 @@ public class DBManager {
             preparedStatement.setString(4, alert_severity);
             preparedStatement.setString(5, alert_population);
             boolean b = preparedStatement.execute();
-            if (b == true) {
+           /* if (b == true) {
                 System.out.println("1 record inserted...");
-            }
+            }*/
         } catch (SQLException sqlEx) {
 
             // sqlEx.printStackTrace();
