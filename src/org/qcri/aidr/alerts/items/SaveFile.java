@@ -8,11 +8,13 @@ package org.qcri.aidr.alerts.items;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.Writer;
 import java.net.URL;
 import java.net.URLConnection;
@@ -31,7 +33,7 @@ import java.util.logging.Logger;
  */
 public class SaveFile {
 
-    public SaveFile(String link, String publish_time) {
+    public SaveFile(String link, String publish_time, String firstAlertTime) {
 
         try {
             File file = new File("/Users/shrutisingala/NetBeansProjects/QCRI-Summer-Project/XML Files/tempXML.xml");
@@ -85,6 +87,19 @@ public class SaveFile {
         if (!success) {
             System.out.println("File was not successfully renamed");
         }
+
+        try {
+            //File Latest = new File("/Users/shrutisingala/NetBeansProjects/QCRI-Summer-Project/XML Files/Latest.txt");
+            PrintWriter Latest = new PrintWriter("/Users/shrutisingala/NetBeansProjects/QCRI-Summer-Project/XML Files/Latest.txt");
+            Latest.println(firstAlertTime);
+            Latest.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SaveFile.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+
     }
 
     private static class filewrite {
@@ -95,22 +110,21 @@ public class SaveFile {
 
     public String convertStringToDate(String dateString) {
         Date date = null;
-        
+
         System.out.println(dateString);
         DateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss zzz");
-        
+
         //dateString = "Thu, 1 Jan 1970 00:01:00 GMT";
         System.out.println(dateString);
         try {
             date = df.parse(dateString);
-            
+
             System.out.println(date);
-            
+
         } catch (Exception ex) {
             System.out.println(ex);
         }
-        
-        
+
         long stamp = date.getTime() / 1000;
         String time = String.valueOf(stamp);
         System.out.println(time);
