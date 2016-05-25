@@ -54,7 +54,9 @@ public class AlertManager {
         //deletealert(1086489);
         //deletealert(1086512);
 
+
         readalert();
+
 
         //String publish_time = ListOfAlerts.toString();
         //System.out.println(publish_time);
