@@ -5,6 +5,7 @@
  */
 package org.qcri.aidr.alerts.items;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -35,7 +36,7 @@ public class RSSFeedParser {
 
 
   final URL url;
-
+  
   public RSSFeedParser(String feedUrl) {
     try {
       this.url = new URL(feedUrl);
