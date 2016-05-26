@@ -124,7 +124,7 @@ public class AlertManager {
 
 
 
-        //deletealert(1086630);
+        deletealert(0);
         //deletealert(1000262);
         
         /*  ResultSet rs=null;
