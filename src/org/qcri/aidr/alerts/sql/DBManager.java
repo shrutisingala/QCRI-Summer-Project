@@ -11,7 +11,9 @@ public class DBManager {
 //http://www.tutorialspoint.com/jdbc/jdbc-create-tables.htm 
     final private static String JDBC_URL = "jdbc:mysql://localhost:3306/mudra";
     final private static String USER = "root";
-    final private static String PASSWORD = "shruti";
+    final private static String PASSWORD = "salvivado123";
+    //final private static String PASSWORD = "shruti";
+
 
 
     public static void createmaster_alerts(int alert_id, String alert_type, String alert_time, String alert_severity, String alert_population) {
@@ -19,6 +21,12 @@ public class DBManager {
         PreparedStatement preparedStatement = null;
         
         //checking
+        if(!check(alert_time))
+        return;
+        
+        
+          
+        
         
         try {
             // Class.forName(JDBC_DRIVER);
@@ -215,6 +223,16 @@ public class DBManager {
     /*public static String gettime(String time) {
     return time;
      }*/
+    
+    public static boolean check(String alert_time)
+    { 
+   
+        if(DBManager.readtime()==alert_time)
+            return true;
+        else
+            return false;
+        
+    }
     
     
 
