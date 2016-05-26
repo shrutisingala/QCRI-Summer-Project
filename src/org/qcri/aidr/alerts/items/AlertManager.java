@@ -137,8 +137,26 @@ public class AlertManager {
         
         
 
+
+
+        readalert();
+
+
+
         //deletealert(1086630);
         //deletealert(1000262);
+        
+        /*  ResultSet rs=null;
+
+        List list = new ArrayList();
+        while (rs.next()) {
+         list.add(rs.getString("alert_time"));
+        }
+        
+        System.out.println(list);*/
+        
+        
+
         //String publish_time = ListOfAlerts.toString();
         //System.out.println(publish_time);
     }

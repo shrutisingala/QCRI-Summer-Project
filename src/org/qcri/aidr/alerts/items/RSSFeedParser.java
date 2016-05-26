@@ -78,9 +78,9 @@ public class RSSFeedParser {
             }
             event = eventReader.nextEvent();
             break;
-          case ALERTID:
-            alertID = getIntegerData(event, eventReader);
-            break;
+          //case ALERTID:
+            //alertID = getIntegerData(event, eventReader);
+            //break;
           case ALERTTYPE:
             alertType = getCharacterData(event, eventReader);
             break;
