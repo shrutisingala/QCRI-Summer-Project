@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import static java.sql.Types.NULL;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -52,7 +53,7 @@ public class RSSFeedParser {
       
       // Set header values intial to the empty string
       
-      int alertID = 0;
+      int alertID = NULL;
       String alertType = "";
       String alertTime = "";
       String alertSeverity = "";
