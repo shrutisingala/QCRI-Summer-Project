@@ -142,7 +142,6 @@ public class AlertManager {
         readalert();
 
 
-
         deletealert(0);
         //deletealert(1000262);
         
