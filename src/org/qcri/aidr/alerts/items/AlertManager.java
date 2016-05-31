@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 import org.qcri.aidr.alerts.items.AlertMessage;
 import org.qcri.aidr.alerts.sql.DBManager;
 import static org.qcri.aidr.alerts.sql.DBManager.createmaster_alerts;
-import static org.qcri.aidr.alerts.sql.DBManager.deletealert;
+//import static org.qcri.aidr.alerts.sql.DBManager.deletealert;
 import static org.qcri.aidr.alerts.sql.DBManager.readalert;
 import static org.qcri.aidr.alerts.sql.DBManager.readtime;
 
@@ -70,7 +70,7 @@ public class AlertManager {
             
           // if (message.getAlertTime()==DBManager.gettime())
 
-            //createmaster_alerts(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverity(), message.getAlertPopulation());
+            createmaster_alerts(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverityUnit(), message.getAlertSeverityValue(), message.getAlertPopulationUnit(), message.getAlertPopulationValue(), message.getAlertPointLat(), message.getAlertPointLong(), message.getAlertCalculationType(), message.getAlertCountry() );
         }
 
     }
@@ -106,7 +106,7 @@ public class AlertManager {
                     //} else {
                     getAlerts();
                     readalert();
-                    readtime();
+                    //readtime();
                     
                     
                    
@@ -142,7 +142,7 @@ public class AlertManager {
         readalert();
 
 
-        deletealert(0);
+       // deletealert(0);
         //deletealert(1000262);
         
         /*  ResultSet rs=null;
