@@ -5,10 +5,12 @@
  */
 package org.qcri.aidr.alerts.items;
 
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import static java.sql.Types.NULL;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -40,6 +42,7 @@ public class RSSFeedParser {
     public RSSFeedParser(String feedUrl) {
         try {
             this.url = new URL(feedUrl);
+            System.out.println("inside the rssFeedparser constructor");
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
@@ -49,10 +52,11 @@ public class RSSFeedParser {
     public Alerts readAlert() {
         Alerts alert = null;
         try {
+            System.out.println("inside readalert parser");
             boolean isAlertHeader = true;
 
             // Set header values intial to the empty string
-            int alertID = 0;
+            int alertID = NULL;
             String alertType = "";
             String alertTime = "";
             String alertSeverityUnit = "";
@@ -89,13 +93,17 @@ public class RSSFeedParser {
                         //alertID = getIntegerData(event, eventReader);
                         //break;
                         case ALERTTYPE:
+                            System.out.println("at alerttype");
                             alertType = getStringData(event, eventReader);
+                            System.out.println(alertType);
                             break;
                         case ALERTTIME:
                             alertTime = getStringData(event, eventReader);
+                            System.out.println(alertTime);
                             break;
                         case ALERTSEVERITYUNIT:
                             alertSeverityUnit = getStringData(event, eventReader);
+                            System.out.println(alertSeverityUnit);
                             break;
                         case ALERTSEVERITYVALUE:
                             alertSeverityValue = getFloatData(event, eventReader);
@@ -142,6 +150,8 @@ public class RSSFeedParser {
         } catch (XMLStreamException e) {
             throw new RuntimeException(e);
         }
+        System.out.println("going back to getalert");
+        System.out.println(alert);
         return alert;
     }
 

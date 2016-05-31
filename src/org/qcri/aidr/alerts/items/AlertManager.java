@@ -29,10 +29,15 @@ public class AlertManager {
 
     public static void getAlerts() throws FileNotFoundException {
 
+        System.out.println("entered getalerts");
         String lastAlertTime = finder();
         String thisAlertTime = null;
-        //triggerig the parser
+        System.out.println("back to getalerts");
+        
+        //triggering the parser
+        System.out.println("triggering the parser");
         RSSFeedParser parser = new RSSFeedParser("http://www.gdacs.org/xml/rss.xml");
+        System.out.println("back to getalerts");
         Alerts alert = parser.readAlert();
         //saving the file in the proper directory
         String publish_time = alert.alertTime;
@@ -55,14 +60,17 @@ public class AlertManager {
     public static void persistAlerts(Alerts alert) {
         //checking mechanism for new alerts only
         //if new alert is found
+        
+        System.out.println("in persistalerts");
 
         for (AlertMessage message : alert.getMessages()) {
 
-            //System.out.println(message);
+            System.out.println(message);
             //readtime();
 
             
           // if (message.getAlertTime()==DBManager.gettime())
+          System.out.println("creating the alert in the table");
 
             createmaster_alerts(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverityUnit(), message.getAlertSeverityValue(), message.getAlertPopulationUnit(), message.getAlertPopulationValue(), message.getAlertPointLat(), message.getAlertPointLong(), message.getAlertCalculationType(), message.getAlertCountry() );
 
@@ -72,8 +80,10 @@ public class AlertManager {
 
     public static String finder() throws FileNotFoundException {
 
-        String content = new Scanner(new File("C:\\Users\\lenovo\\Documents\\NetBeansProjects\\QCRI-Summer-Project\\XML Files\\Latest.txt")).useDelimiter("\\Z").next();
+        System.out.println("entered finder");
+        String content = new Scanner(new File("/Users/shrutisingala/NetBeansProjects/QCRI-Summer-Project/XML Files/Latest.txt")).useDelimiter("\\Z").next();
         System.out.println(content);
+        System.out.println("that was the latest alert time");
         return content;
     }
 
@@ -95,10 +105,11 @@ public class AlertManager {
                 try {
                     //if (numWarningBeeps >= 0) {
 
-                    System.out.println("Beep!");
+                    System.out.println("Beep! inside the scheduler");
                     //numWarningBeeps++;
                     //} else {
                     getAlerts();
+                    System.out.println("back to scheduler\nreading alerts");
                     readalert();
                     //readtime();
 
@@ -123,10 +134,11 @@ public class AlertManager {
 
         //put the 5 minute timer here.
         //getAlerts();
+        System.out.println("in main");
         fiveMinuteScheduler run = new fiveMinuteScheduler();
 
         
-        readalert();
+        //readalert();
 
 
        // deletealert(0);

@@ -2,35 +2,27 @@ package org.qcri.aidr.alerts.sql;
 
 //heyyaa
 import java.sql.*;
-import java.io.*;
-import java.lang.*;
+
 
 public class DBManager {
 
 //import mysql-connector-java-5.1.32.jar 
-
 //http://www.tutorialspoint.com/jdbc/jdbc-create-tables.html 
-
     final private static String JDBC_URL = "jdbc:mysql://localhost:3306/alerts";
     final private static String USER = "root";
 
-    final private static String PASSWORD = "salvivado123";
+    final private static String PASSWORD = "shruti";
 
     //final private static String PASSWORD = "salvivado123";
-    
-
     public static void createmaster_alerts(int id, String type, String time, String severityunit, float severityvalue, String populationunit, int populationvalue, float latitude, float longitude, String calculationtype, String country) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        
+
         //checking
-        if(!check(time))
-        return;
-        
-        
-          
-        
-        
+        if (!check(time)) {
+            return;
+        }
+
         try {
             // Class.forName(JDBC_DRIVER);
             connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
@@ -47,14 +39,12 @@ public class DBManager {
             preparedStatement.setString(10, calculationtype);
             preparedStatement.setString(11, country);
             boolean b = preparedStatement.execute();
-           /* if (b == true) {
+            /* if (b == true) {
                 System.out.println("1 record inserted...");
             }*/
         } catch (SQLException sqlEx) {
 
             // sqlEx.printStackTrace();
-
-
             System.out.println("hey there");
             System.exit(1);
         } /*catch (ClassNotFoundException clsNotFoundEx) {
@@ -95,171 +85,155 @@ public class DBManager {
             }
         }
     }*/
-
     public static void readalert() {
 
- 
-   Connection conn = null;
-   Statement stmt = null;
-   try{
+        Connection conn = null;
+        Statement stmt = null;
+        try {
 
-      System.out.println("Connecting to a selected database...");
-      conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
-      System.out.println("Connected database successfully...");
-      
-      //STEP 4: Execute a query
-      System.out.println("Creating statement...");
-      stmt = conn.createStatement();
+            System.out.println("Connecting to a selected database...");
+            conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+            System.out.println("Connected database successfully...");
 
-      String sql = "SELECT * FROM master_alerts";
-      ResultSet rs = stmt.executeQuery(sql);
-      //STEP 5: Extract data from result set
-      while(rs.next()){
-         //Retrieve by column name
-         int id  = rs.getInt("id");
-         String type = rs.getString("type");
-         String time = rs.getString("time");
-         String severityunit = rs.getString("severityunit");
-         Float severityvalue = rs.getFloat("severityvalue");
-         String populationunit = rs.getString("populationunit");
-         int populationvalue = rs.getInt("populationvalue");
-         Float latitude = rs.getFloat("latitude");
-         Float longitude = rs.getFloat("longitude");
-         String calculationtype = rs.getString("calculationtype");
-         String country = rs.getString("country");
-         
-         
-         // System.out.println("alert_id  alert_type       alert_time                             alert_severity                                 alert_population");
+            //STEP 4: Execute a query
+            System.out.println("Creating statement...");
+            stmt = conn.createStatement();
 
-         //Display values
-         System.out.print("" + id);
-         System.out.print("        " + type);
-         System.out.print("        " + time);
-         System.out.print("        " + severityunit);
-         System.out.print("        " + severityvalue);
-         System.out.println("                 " + populationunit);
-         System.out.println("                 " + populationvalue);
-         System.out.println("                 " + latitude);
-         System.out.println("                 " + longitude);
-         System.out.println("                 " + calculationtype);
-         System.out.println("                 " + country);
-         
-      }
-      rs.close();
-   }catch(SQLException se){
-    
-      se.printStackTrace();
-   }catch(Exception e){
-    
-      e.printStackTrace();
-   }finally{
-      //finally block used to close resources
-      try{
-         if(stmt!=null)
-            conn.close();
-      }catch(SQLException se){
-      }// do nothing
-      try{
-         if(conn!=null)
-            conn.close();
-      }catch(SQLException se){
-         se.printStackTrace();
-      }//end finally try
-   }//end try
-   System.out.println("Goodbye!");
-}//end main
+            String sql = "SELECT * FROM master_alerts";
+            ResultSet rs = stmt.executeQuery(sql);
+            //STEP 5: Extract data from result set
+            while (rs.next()) {
+                //Retrieve by column name
+                int id = rs.getInt("id");
+                String type = rs.getString("type");
+                String time = rs.getString("time");
+                String severityunit = rs.getString("severityunit");
+                Float severityvalue = rs.getFloat("severityvalue");
+                String populationunit = rs.getString("populationunit");
+                int populationvalue = rs.getInt("populationvalue");
+                Float latitude = rs.getFloat("latitude");
+                Float longitude = rs.getFloat("longitude");
+                String calculationtype = rs.getString("calculationtype");
+                String country = rs.getString("country");
 
- 
-    
-    
-    public static String readtime()
-    {
-       // static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-          // static final String JDBC_URL = "jdbc:mysql://localhost/STUDENTS";
+                // System.out.println("alert_id  alert_type       alert_time                             alert_severity                                 alert_population");
+                //Display values
+                System.out.print("" + id);
+                System.out.print("        " + type);
+                System.out.print("        " + time);
+                System.out.print("        " + severityunit);
+                System.out.print("        " + severityvalue);
+                System.out.println("                 " + populationunit);
+                System.out.println("                 " + populationvalue);
+                System.out.println("                 " + latitude);
+                System.out.println("                 " + longitude);
+                System.out.println("                 " + calculationtype);
+                System.out.println("                 " + country);
 
-   //  Database credentials
-  // static final String USER = "username";
-   //static final String PASS = "password";
-   
-   
-   Connection conn = null;
-   Statement stmt = null;
-   try{
-      //STEP 2: Register JDBC driver
-      //Class.forName("com.mysql.jdbc.Driver");
+            }
+            rs.close();
+        } catch (SQLException se) {
 
-      //STEP 3: Open a connection
-      System.out.println("Connecting to a selected database...");
-      conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
-      System.out.println("Connected database successfully...");
-      
-      //STEP 4: Execute a query
-      System.out.println("Creating statement...");
-      stmt = conn.createStatement();
+            se.printStackTrace();
+        } catch (Exception e) {
 
-      String sql = "SELECT time FROM master_alerts";
-      ResultSet rs = stmt.executeQuery(sql);
-  
-      while(rs.next()){
- 
-         String t  = rs.getString("time");
-         System.out.println("TIME: " + t);
-         
-    //return t;
-         
-        
-         
-      }
-      rs.close();
-   }catch(SQLException se){
-      //Handle errors for JDBC
-      se.printStackTrace();
-   }catch(Exception e){
-      //Handle errors for Class.forName
-      e.printStackTrace();
-   }finally{
-       
-       
-      //finally block used to close resources
-      try{
-         if(stmt!=null)
-            conn.close();
-      }catch(SQLException se){
-      }// do nothing
-      try{
-         if(conn!=null)
-            conn.close();
-      }catch(SQLException se){
-         se.printStackTrace();
-      }//end finally try
-   }//end try
-   
-   System.out.println("Goodbye!");
-   //return db.t;
-        
-    return "";
+            e.printStackTrace();
+        } finally {
+            //finally block used to close resources
+            try {
+                if (stmt != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+            }// do nothing
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }//end finally try
+        }//end try
+        System.out.println("Goodbye!");
+    }//end main
+
+    public static String readtime() {
+        // static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+        // static final String JDBC_URL = "jdbc:mysql://localhost/STUDENTS";
+
+        //  Database credentials
+        // static final String USER = "username";
+        //static final String PASS = "password";
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+            //STEP 2: Register JDBC driver
+            //Class.forName("com.mysql.jdbc.Driver");
+
+            //STEP 3: Open a connection
+            System.out.println("Connecting to a selected database...");
+            conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+            System.out.println("Connected database successfully...");
+
+            //STEP 4: Execute a query
+            System.out.println("Creating statement...");
+            stmt = conn.createStatement();
+
+            String sql = "SELECT time FROM master_alerts";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+
+                String t = rs.getString("time");
+                System.out.println("TIME: " + t);
+
+                //return t;
+            }
+            rs.close();
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        } finally {
+
+            //finally block used to close resources
+            try {
+                if (stmt != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+            }// do nothing
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }//end finally try
+        }//end try
+
+        System.out.println("Goodbye!");
+        //return db.t;
+
+        return "";
     }
-    
-   
-    
-    
+
     /*public static String gettime(String time) {
     return time;
      }*/
-    
-    public static boolean check(String alert_time)
-    { 
-   
-        if(DBManager.readtime()==alert_time)
-            return true;
-        else
-            return false;
-        
-    }
-    
-    
+    public static boolean check(String alert_time) {
 
-  /*  public static void deletealert(int alert_id) {
+        if (DBManager.readtime() == alert_time) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    /*  public static void deletealert(int alert_id) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -285,4 +259,3 @@ public class DBManager {
     }
 }*/
 }
-
