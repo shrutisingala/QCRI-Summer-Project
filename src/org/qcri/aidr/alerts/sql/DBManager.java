@@ -8,8 +8,8 @@ import java.lang.*;
 public class DBManager {
 
 //import mysql-connector-java-5.1.32.jar 
-//http://www.tutorialspoint.com/jdbc/jdbc-create-tables.htm 
-    final private static String JDBC_URL = "jdbc:mysql://localhost:3306/mudra";
+//http://www.tutorialspoint.com/jdbc/jdbc-create-tables.html 
+    final private static String JDBC_URL = "jdbc:mysql://localhost:3306/alerts";
     final private static String USER = "root";
 
     final private static String PASSWORD = "shruti";
