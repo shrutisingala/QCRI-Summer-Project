@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import static java.sql.Types.NULL;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -47,6 +48,7 @@ public class RSSFeedParser {
         }
     }
 
+
     public Alerts readAlert() {
         Alerts alert = null;
         try {
@@ -71,6 +73,7 @@ public class RSSFeedParser {
             InputStream in = read();
             XMLEventReader eventReader = inputFactory.createXMLEventReader(in);
             // read the XML document
+
 
             while (eventReader.hasNext()) {
                 XMLEvent event = eventReader.nextEvent();
