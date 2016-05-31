@@ -70,7 +70,7 @@ public class AlertManager {
             
           // if (message.getAlertTime()==DBManager.gettime())
 
-            createmaster_alerts(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverity(), message.getAlertPopulation());
+            //createmaster_alerts(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverity(), message.getAlertPopulation());
         }
 
     }
@@ -88,9 +88,9 @@ public class AlertManager {
 
         public fiveMinuteScheduler() {
             timer = new Timer();
-            timer.schedule(new RemindTask(),
-                    0, //initial delay
-                    1 * 1000 * 60 *5 );  //subsequent rate
+            //timer.schedule(new RemindTask(),
+                    //0, //initial delay
+                    //1 * 1000 * 60 *5 );  //subsequent rate
         }
 
         class RemindTask extends TimerTask {

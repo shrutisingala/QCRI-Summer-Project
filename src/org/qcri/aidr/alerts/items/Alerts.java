@@ -13,61 +13,90 @@ import java.util.List;
  * @author shrutisingala
  */
 public class Alerts {
-  
-     int alertID;
-     String alertType;
-     String alertTime;
-     String alertSeverity;
-     String alertPopulation;
 
-  final List<AlertMessage> entries = new ArrayList<AlertMessage>();
+    int alertID;
+    String alertType;
+    String alertTime;
+    String alertSeverityUnit;
+    float alertSeverityValue;
+    String alertPopulationUnit;
+    int alertPopulationValue;
+    float alertPointLat;
+    float alertPointLong;
+    String alertCalculationType;
+    String alertCountry;
 
-  public Alerts(int alertID, String alertType, String alertTime, String alertSeverity, String alertPopulation) {
-    this.alertID = alertID;
-    this.alertType = alertType;
-    this.alertTime = alertTime;
-    this.alertSeverity = alertSeverity;
-    this.alertPopulation = alertPopulation;
-  }
+    final List<AlertMessage> entries = new ArrayList<AlertMessage>();
 
-  public List<AlertMessage> getMessages() {
-      //System.out.println(entries);
-    return entries;
-  }
+    public Alerts(int alertID, String alertType, String alertTime, String alertSeverityUnit, float alertSeverityValue, String alertPopulationUnit, int alertPopulationValue, float alertPointLat, float alertPointLong, String alertCalculationType, String alertCountry) {
+        this.alertID = alertID;
+        this.alertType = alertType;
+        this.alertTime = alertTime;
+        this.alertSeverityUnit = alertSeverityUnit;
+        this.alertSeverityValue = alertSeverityValue;
+        this.alertPopulationUnit = alertPopulationUnit;
+        this.alertPopulationValue = alertPopulationValue;
+        this.alertPointLat = alertPointLat;
+        this.alertPointLong = alertPointLong;
+        this.alertCalculationType = alertCalculationType;
+        this.alertCountry = alertCountry;
+    }
 
-  public int getAlertID() {
-    return alertID;
-  }
-  
-  public String getAlertType() {
-    return alertType;
-  }
-  
-  public String getAlertTime() {
-    return alertTime;
-  }
-  
-  public String getAlertSeverity() {
-    return alertSeverity;
-  }
-  
-  public String getAlertPopulation() {
-    return alertPopulation;
-  }
+    public List<AlertMessage> getMessages() {
+        //System.out.println(entries);
+        return entries;
+    }
 
-  @Override
-  public String toString() {
+    public int getAlertID() {
+        return alertID;
+    }
+
+    public String getAlertType() {
+        return alertType;
+    }
+
+    public String getAlertTime() {
+        return alertTime;
+    }
+
+    public String getAlertSeverityUnit() {
+        return alertSeverityUnit;
+    }
+
+    public float getAlertSeverityValue() {
+        return alertSeverityValue;
+    }
+
+    public String getAlertPopulationUnit() {
+        return alertPopulationUnit;
+    }
+
+    public int getAlertPopulationValue() {
+        return alertPopulationValue;
+    }
+
+    public float getAlertPointLat() {
+        return alertPointLat;
+    }
+
+    public float getAlertPointLong() {
+        return alertPointLong;
+    }
+
+    public String getAlertCalculationType() {
+        return alertCalculationType;
+    }
     
-      /*return "\nID=\"" + alertID + "\", Type=\"" + alertType
-        + "\", Time=\"" + alertTime + "\", Severity=\"" + alertSeverity + "\", Population=\"" + alertPopulation + "\"";
-            */
-  
+    public String getAlertCountry() {
+        return alertCountry;
+    }
+
+    @Override
+    public String toString() {
     
-    return "\n\"" + alertID + "\", \"" + alertType + "\", \"" + alertTime + "\", \"" + alertSeverity + "\", \"" + alertPopulation + "\"";
+  
+    return "\n\"" + alertID + "\", \"" + alertType + "\", \"" + alertTime + "\", \"" + alertSeverityUnit + "\", \"" + alertSeverityValue + "\", \"" +alertPopulationUnit + "\", \"" +alertPopulationValue + "\", \"" + alertPointLat + "\", \"" + alertPointLong  + "\", \"" + alertCalculationType  + "\", \"" + alertCountry + "\"";
+  
   }
 
 }
-
-
-
-
