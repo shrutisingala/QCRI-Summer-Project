@@ -152,7 +152,7 @@ public class RSSFeedParser {
                                     i = 8;
                                 } else {
                                     System.out.println(ss);
-                                    alertPointLat = Float.parseFloat(ss);
+                                    alertPointLong = Float.parseFloat(ss);
                                 }
 
                             }
