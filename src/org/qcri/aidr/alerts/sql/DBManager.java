@@ -125,12 +125,12 @@ public class DBManager {
                 System.out.print("        " + time);
                 System.out.print("        " + severityunit);
                 System.out.print("        " + severityvalue);
-                System.out.println("                 " + populationunit);
-                System.out.println("                 " + populationvalue);
-                System.out.println("                 " + latitude);
-                System.out.println("                 " + longitude);
-                System.out.println("                 " + calculationtype);
-                System.out.println("                 " + country);
+                System.out.print("                 " + populationunit);
+                System.out.print("                 " + populationvalue);
+                System.out.print("                 " + latitude);
+                System.out.print("                 " + longitude);
+                System.out.print("                 " + calculationtype);
+                System.out.print("                 " + country);
 
             }
             rs.close();
