@@ -5,7 +5,6 @@
  */
 package org.qcri.aidr.alerts.items;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -26,12 +25,12 @@ public class RSSFeedParser {
     static final String ALERTID = "eventid";
     static final String ALERTTYPE = "eventtype";
     static final String ALERTTIME = "pubDate";
-    static final String ALERTSEVERITYUNIT = "severity.unit";
+    static final String ALERTSEVERITYUNIT = "severity";
     static final String ALERTSEVERITYVALUE = "severity.value";
     static final String ALERTPOPULATIONUNIT = "population.unit";
     static final String ALERTPOPULATIONVALUE = "population.value";
-    static final String ALERTPOINTLAT = "lat";
-    static final String ALERTPOINTLONG = "long";
+    static final String ALERTPOINT = "point";
+
     static final String ALERTCALCULATIONTYPE = "calculationtype";
     static final String ALERTCOUNTRY = "country";
 
@@ -47,7 +46,6 @@ public class RSSFeedParser {
             throw new RuntimeException(e);
         }
     }
-
 
     public Alerts readAlert() {
         Alerts alert = null;
@@ -67,7 +65,7 @@ public class RSSFeedParser {
             float alertPointLong = 0;
             String alertCalculationType = "";
             String alertCountry = "";
-            
+
             // First create a new XMLInputFactory
             XMLInputFactory inputFactory = XMLInputFactory.newInstance();
             // Setup a new eventReader
@@ -75,9 +73,10 @@ public class RSSFeedParser {
             XMLEventReader eventReader = inputFactory.createXMLEventReader(in);
             // read the XML document
 
-
             while (eventReader.hasNext()) {
                 XMLEvent event = eventReader.nextEvent();
+                //System.out.println(event);
+                //System.out.println("-----------------------------------------------------------");
                 if (event.isStartElement()) {
                     String localPart = event.asStartElement().getName()
                             .getLocalPart();
@@ -102,6 +101,7 @@ public class RSSFeedParser {
                             System.out.println(alertTime);
                             break;
                         case ALERTSEVERITYUNIT:
+
                             alertSeverityUnit = getStringData(event, eventReader);
                             System.out.println(alertSeverityUnit);
                             break;
@@ -114,12 +114,50 @@ public class RSSFeedParser {
                         case ALERTPOPULATIONVALUE:
                             alertPopulationValue = getIntegerData(event, eventReader);
                             break;
-                        case ALERTPOINTLAT:
-                            alertPointLat = getFloatData(event, eventReader);
+                        /*case ALERTPOINT:
+                            boolean i=true;
+                            do{
+                            event = eventReader.nextEvent();
+                            if (event.isStartElement()) {
+                            localPart = event.asStartElement().getName().getLocalPart();
+                            switch(localPart)
+                            {
+                                case "lat": alertPointLat = getFloatData(event, eventReader);
+                                    System.out.println(" ++++ " + alertPointLat);
+                                            break;
+                                case "long": alertPointLong = getFloatData(event, eventReader);
+                                    System.out.println(alertPointLong);
+                                                i=false;
+                                               break;
+                            }
+                            }
+                            }while(i);
+                            //alertPointLat = getFloatData(event, eventReader);
                             break;
-                        case ALERTPOINTLONG:
-                            alertPointLong = getFloatData(event, eventReader);
+                        //case ALERTPOINTLONG:
+                            //alertPointLong = getFloatData(event, eventReader);
+                            //break;
+                            
+                         */
+                        case ALERTPOINT:
+                            String point = getStringData(event, eventReader);
+                            int i = 1;
+
+                            String[] arr = point.split(" ");
+
+                            for (String ss : arr) {
+                                if (i == 1) {
+                                    System.out.println(ss);
+                                    alertPointLat = Float.parseFloat(ss);
+                                    i = 8;
+                                } else {
+                                    System.out.println(ss);
+                                    alertPointLat = Float.parseFloat(ss);
+                                }
+
+                            }
                             break;
+
                         case ALERTCALCULATIONTYPE:
                             alertCalculationType = getStringData(event, eventReader);
                             break;
@@ -127,6 +165,9 @@ public class RSSFeedParser {
                             alertCountry = getStringData(event, eventReader);
                             break;
                     }
+                } else if (event.isAttribute()) {
+                    System.out.println("*******ATTRIBUTE*******");
+
                 } else if (event.isEndElement()) {
                     if (event.asEndElement().getName().getLocalPart() == (ITEM)) {
                         AlertMessage message = new AlertMessage();

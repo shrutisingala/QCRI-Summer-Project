@@ -58,6 +58,8 @@ public class DBManager {
                 System.exit(1);
             }
         }
+        
+        
     }
 
     /*public static void updatetype(int alert_id, String alert_type) {

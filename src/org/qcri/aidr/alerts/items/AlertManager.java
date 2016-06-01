@@ -51,10 +51,10 @@ public class AlertManager {
         //if it has call persistAlerts(alert)
         if (!lastAlertTime.equals(thisAlertTime)) {
             System.out.println("persisting alerts");
-            persistAlerts(alert);
+            //persistAlerts(alert);
         }
 
-        //persistAlerts(alert);
+        persistAlerts(alert);
     }
 
     public static void persistAlerts(Alerts alert) {
