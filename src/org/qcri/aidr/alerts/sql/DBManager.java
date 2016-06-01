@@ -23,7 +23,7 @@ public class DBManager {
        // System.out.println("ENTERED MASTER ALERTS");
 
         //checking
-        if (check(time)) {
+        if (!check(time)) {
             return;
         }
 
