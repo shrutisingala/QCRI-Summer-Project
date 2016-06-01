@@ -14,17 +14,22 @@ public class DBManager {
     final private static String PASSWORD = "salvivado123";
 
     //final private static String PASSWORD = "salvivado123";
+    
+    
     public static void createmaster_alerts(int id, String type, String time, String severityunit, float severityvalue, String populationunit, int populationvalue, float latitude, float longitude, String calculationtype, String country) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        
+       // System.out.println("ENTERED MASTER ALERTS");
 
         //checking
-        if (!check(time)) {
+        if (check(time)) {
             return;
         }
 
         try {
             // Class.forName(JDBC_DRIVER);
+            //System.out.println("ENTERED TRY BLOCK");
             connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
             preparedStatement = connection.prepareStatement("INSERT INTO master_alerts VALUES(?,?,?,?,?,?,?,?,?,?,?)");
             preparedStatement.setInt(1, id);
@@ -55,6 +60,7 @@ public class DBManager {
                 preparedStatement.close();
                 connection.close();
             } catch (Exception e) {
+                System.out.println("its not WRKING!");
                 System.exit(1);
             }
         }
@@ -93,7 +99,7 @@ public class DBManager {
         Statement stmt = null;
         try {
 
-            System.out.println("Connecting to a selected database...");
+            System.out.println("Connecting to a selected database to read alert...");
             conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
             System.out.println("Connected database successfully...");
 
@@ -118,19 +124,19 @@ public class DBManager {
                 String calculationtype = rs.getString("calculationtype");
                 String country = rs.getString("country");
 
-                // System.out.println("alert_id  alert_type       alert_time                             alert_severity                                 alert_population");
+                System.out.println("alert_id  alert_type       alert_time                             alert_severity                                 alert_population");
                 //Display values
-                System.out.print("" + id);
+                System.out.print("\n" + id);
                 System.out.print("        " + type);
                 System.out.print("        " + time);
                 System.out.print("        " + severityunit);
                 System.out.print("        " + severityvalue);
-                System.out.println("                 " + populationunit);
-                System.out.println("                 " + populationvalue);
-                System.out.println("                 " + latitude);
-                System.out.println("                 " + longitude);
-                System.out.println("                 " + calculationtype);
-                System.out.println("                 " + country);
+                System.out.print("                 " + populationunit);
+                System.out.print("                 " + populationvalue);
+                System.out.print("                 " + latitude);
+                System.out.print("                 " + longitude);
+                System.out.print("                 " + calculationtype);
+                System.out.print("                 " + country);
 
             }
             rs.close();
@@ -171,9 +177,9 @@ public class DBManager {
         try {
             //STEP 2: Register JDBC driver
             //Class.forName("com.mysql.jdbc.Driver");
-
+             System.out.println("IN READ TIME");
             //STEP 3: Open a connection
-            System.out.println("Connecting to a selected database...");
+            System.out.println("Connecting to a selected database IN READ TIME...");
             conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
             System.out.println("Connected database successfully...");
 
@@ -189,7 +195,7 @@ public class DBManager {
                 String t = rs.getString("time");
                 System.out.println("TIME: " + t);
 
-                //return t;
+                return t;
             }
             rs.close();
         } catch (SQLException se) {

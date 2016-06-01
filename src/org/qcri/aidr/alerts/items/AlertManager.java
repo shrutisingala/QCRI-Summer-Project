@@ -58,6 +58,8 @@ public class AlertManager {
     }
 
     public static void persistAlerts(Alerts alert) {
+        
+        System.out.println("hello wer in persist alerts");
         //checking mechanism for new alerts only
         //if new alert is found
         
