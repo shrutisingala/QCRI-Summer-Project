@@ -10,9 +10,7 @@ public class DBManager {
 //http://www.tutorialspoint.com/jdbc/jdbc-create-tables.html 
     final private static String JDBC_URL = "jdbc:mysql://localhost:3306/alerts";
     final private static String USER = "root";
-
-    final private static String PASSWORD = "salvivado123";
-
+    final private static String PASSWORD = "shruti";
     //final private static String PASSWORD = "salvivado123";
     
     
@@ -23,7 +21,7 @@ public class DBManager {
        // System.out.println("ENTERED MASTER ALERTS");
 
         //checking
-        if (check(time)) {
+        if (!check(time)) {
             return;
         }
 
