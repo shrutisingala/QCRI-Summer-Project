@@ -41,6 +41,7 @@ public class AlertManager {
     }
 
     public static void persistAlerts(Alerts alert) {
+
         for (AlertMessage message : alert.getMessages()) {
             createmaster_alerts(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverityUnit(), message.getAlertSeverityValue(), message.getAlertPopulationUnit(), message.getAlertPopulationValue(), message.getAlertPointLat(), message.getAlertPointLong(), message.getAlertCalculationType(), message.getAlertCountry());
         }
