@@ -37,8 +37,8 @@ public class SaveFile {
 
         try {
             System.out.println("in savefile");
-            //File file = new File("C:\\Users\\lenovo\\Documents\\NetBeansProjects\\QCRI-Summer-Project\\XML Files\\tempXML.xml");
-            File file = new File("/Users/shrutisingala/NetBeansProjects/QCRI-Summer-Project/XML Files/tempXML.xml");
+            File file = new File("C:\\Users\\lenovo\\Documents\\NetBeansProjects\\QCRI-Summer-Project\\XML Files\\tempXML.xml");
+            //File file = new File("/Users/shrutisingala/NetBeansProjects/QCRI-Summer-Project/XML Files/tempXML.xml");
             if (file.createNewFile()) {
                 System.out.println("Success!");
             } else {
@@ -57,8 +57,8 @@ public class SaveFile {
             BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
             String inputLine;
             BufferedWriter out = null;
-            //out = new BufferedWriter(new FileWriter("C:\\Users\\lenovo\\Documents\\NetBeansProjects\\QCRI-Summer-Project\\XML Files\\tempXML.xml"));
-            out = new BufferedWriter(new FileWriter("/Users/shrutisingala/NetBeansProjects/QCRI-Summer-Project/XML Files/tempXML.xml"));
+            out = new BufferedWriter(new FileWriter("C:\\Users\\lenovo\\Documents\\NetBeansProjects\\QCRI-Summer-Project\\XML Files\\tempXML.xml"));
+            //out = new BufferedWriter(new FileWriter("/Users/shrutisingala/NetBeansProjects/QCRI-Summer-Project/XML Files/tempXML.xml"));
             while ((inputLine = in.readLine()) != null) {
                 //System.out.println(inputLine);
                 for (i = 0; i < inputLine.length(); i++) {
@@ -75,12 +75,12 @@ public class SaveFile {
         String timestamp = convertStringToDate(publish_time);
 
         // File (or directory) with old name
-        //File file = new File("C:\\Users\\lenovo\\Documents\\NetBeansProjects\\QCRI-Summer-Project\\XML Files\\tempXML.xml");
-        File file = new File("/Users/shrutisingala/NetBeansProjects/QCRI-Summer-Project/XML Files/tempXML.xml");
+        File file = new File("C:\\Users\\lenovo\\Documents\\NetBeansProjects\\QCRI-Summer-Project\\XML Files\\tempXML.xml");
+        //File file = new File("/Users/shrutisingala/NetBeansProjects/QCRI-Summer-Project/XML Files/tempXML.xml");
         
         // File (or directory) with new name
-        //File file2 = new File("C:\\Users\\lenovo\\Documents\\NetBeansProjects\\QCRI-Summer-Project\\XML Files\\" + timestamp + ".xml");
-        File file2 = new File("/Users/shrutisingala/NetBeansProjects/QCRI-Summer-Project/XML Files/" + timestamp + ".xml");
+        File file2 = new File("C:\\Users\\lenovo\\Documents\\NetBeansProjects\\QCRI-Summer-Project\\XML Files\\" + timestamp + ".xml");
+        //File file2 = new File("/Users/shrutisingala/NetBeansProjects/QCRI-Summer-Project/XML Files/" + timestamp + ".xml");
 
         if (file2.exists()) {
             System.out.println("new file already exists");
@@ -95,8 +95,8 @@ public class SaveFile {
 
         try {
             //File Latest = new File("/Users/shrutisingala/NetBeansProjects/QCRI-Summer-Project/XML Files/Latest.txt");
-            //PrintWriter Latest = new PrintWriter("C:\\Users\\lenovo\\Documents\\NetBeansProjects\\QCRI-Summer-Project\\XML Files\\Latest.txt");
-            PrintWriter Latest = new PrintWriter("/Users/shrutisingala/NetBeansProjects/QCRI-Summer-Project/XML Files/Latest.txt");
+            PrintWriter Latest = new PrintWriter("C:\\Users\\lenovo\\Documents\\NetBeansProjects\\QCRI-Summer-Project\\XML Files\\Latest.txt");
+           // PrintWriter Latest = new PrintWriter("/Users/shrutisingala/NetBeansProjects/QCRI-Summer-Project/XML Files/Latest.txt");
             Latest.println(firstAlertTime);
             Latest.close();
         } catch (FileNotFoundException ex) {

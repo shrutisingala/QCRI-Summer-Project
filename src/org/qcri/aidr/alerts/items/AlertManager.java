@@ -81,7 +81,7 @@ public class AlertManager {
     public static String finder() throws FileNotFoundException {
 
         System.out.println("entered finder");
-        String content = new Scanner(new File("/Users/shrutisingala/NetBeansProjects/QCRI-Summer-Project/XML Files/Latest.txt")).useDelimiter("\\Z").next();
+        String content = new Scanner(new File("C:\\Users\\lenovo\\Documents\\NetBeansProjects\\QCRI-Summer-Project\\XML Files\\Latest.txt")).useDelimiter("\\Z").next();
         System.out.println(content);
         System.out.println("that was the latest alert time");
         return content;

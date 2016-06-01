@@ -11,7 +11,7 @@ public class DBManager {
     final private static String JDBC_URL = "jdbc:mysql://localhost:3306/alerts";
     final private static String USER = "root";
 
-    final private static String PASSWORD = "shruti";
+    final private static String PASSWORD = "salvivado123";
 
     //final private static String PASSWORD = "salvivado123";
     public static void createmaster_alerts(int id, String type, String time, String severityunit, float severityvalue, String populationunit, int populationvalue, float latitude, float longitude, String calculationtype, String country) {
@@ -39,9 +39,9 @@ public class DBManager {
             preparedStatement.setString(10, calculationtype);
             preparedStatement.setString(11, country);
             boolean b = preparedStatement.execute();
-            /* if (b == true) {
+             if (b == true) {
                 System.out.println("1 record inserted...");
-            }*/
+            }
         } catch (SQLException sqlEx) {
 
             // sqlEx.printStackTrace();
@@ -225,9 +225,9 @@ public class DBManager {
     /*public static String gettime(String time) {
     return time;
      }*/
-    public static boolean check(String alert_time) {
+    public static boolean check(String time) {
 
-        if (DBManager.readtime() == alert_time) {
+        if (DBManager.readtime() == time) {
             return true;
         } else {
             return false;
