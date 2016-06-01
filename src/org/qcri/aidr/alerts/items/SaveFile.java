@@ -36,9 +36,11 @@ public class SaveFile {
     public SaveFile(String link, String publish_time, String firstAlertTime) {
 
         try {
+
             System.out.println("in savefile");
             File file = new File("C:\\Users\\lenovo\\Documents\\NetBeansProjects\\QCRI-Summer-Project\\XML Files\\tempXML.xml");
             //File file = new File("/Users/shrutisingala/NetBeansProjects/QCRI-Summer-Project/XML Files/tempXML.xml");
+
             if (file.createNewFile()) {
                 System.out.println("Success!");
             } else {

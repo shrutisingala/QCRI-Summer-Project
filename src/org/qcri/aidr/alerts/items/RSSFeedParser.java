@@ -10,10 +10,14 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import static java.sql.Types.NULL;
+import java.util.Iterator;
+import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.Characters;
+import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
 /**
@@ -25,12 +29,9 @@ public class RSSFeedParser {
     static final String ALERTID = "eventid";
     static final String ALERTTYPE = "eventtype";
     static final String ALERTTIME = "pubDate";
-    static final String ALERTSEVERITYUNIT = "severity";
-    static final String ALERTSEVERITYVALUE = "severity.value";
-    static final String ALERTPOPULATIONUNIT = "population.unit";
-    static final String ALERTPOPULATIONVALUE = "population.value";
+    static final String ALERTSEVERITY = "severity";
+    static final String ALERTPOPULATION = "population";
     static final String ALERTPOINT = "point";
-
     static final String ALERTCALCULATIONTYPE = "calculationtype";
     static final String ALERTCOUNTRY = "country";
 
@@ -41,7 +42,7 @@ public class RSSFeedParser {
     public RSSFeedParser(String feedUrl) {
         try {
             this.url = new URL(feedUrl);
-            System.out.println("inside the rssFeedparser constructor");
+            //System.out.println("inside the rssFeedparser constructor");
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
@@ -50,7 +51,7 @@ public class RSSFeedParser {
     public Alerts readAlert() {
         Alerts alert = null;
         try {
-            System.out.println("inside readalert parser");
+            //System.out.println("inside readalert parser");
             boolean isAlertHeader = true;
 
             // Set header values intial to the empty string
@@ -80,6 +81,8 @@ public class RSSFeedParser {
                 if (event.isStartElement()) {
                     String localPart = event.asStartElement().getName()
                             .getLocalPart();
+                    StartElement element = (StartElement) event;
+                    
                     switch (localPart) {
                         case ITEM:
                             if (isAlertHeader) {
@@ -92,27 +95,52 @@ public class RSSFeedParser {
                         //alertID = getIntegerData(event, eventReader);
                         //break;
                         case ALERTTYPE:
-                            System.out.println("at alerttype");
+                            //System.out.println("at alerttype");
                             alertType = getStringData(event, eventReader);
-                            System.out.println(alertType);
+                            //System.out.println(alertType);
                             break;
                         case ALERTTIME:
                             alertTime = getStringData(event, eventReader);
-                            System.out.println(alertTime);
+                            //System.out.println(alertTime);
                             break;
-                        case ALERTSEVERITYUNIT:
-
-                            alertSeverityUnit = getStringData(event, eventReader);
-                            System.out.println(alertSeverityUnit);
+                        case ALERTSEVERITY:
+                            //System.out.println(event);
+                            //System.out.println("Start Element: " + element.getName());
+                            boolean flag = true;
+                            Iterator iterator = element.getAttributes();
+                            while (iterator.hasNext()) {
+                                Attribute attribute = (Attribute) iterator.next();
+                                //QName name = attribute.getName();
+                                String value = attribute.getValue();
+                                //System.out.println("Attribute name/value: " + name + "/" + value);
+                                if (flag)
+                                    alertSeverityUnit = value;
+                                else
+                                    alertSeverityValue = Float.parseFloat(value);
+                                flag=false;
+                                
+                            }
+                            //alertSeverityUnit = getStringData(event, eventReader);
+                            //System.out.println(alertSeverityUnit);
                             break;
-                        case ALERTSEVERITYVALUE:
-                            alertSeverityValue = getFloatData(event, eventReader);
-                            break;
-                        case ALERTPOPULATIONUNIT:
-                            alertPopulationUnit = getStringData(event, eventReader);
-                            break;
-                        case ALERTPOPULATIONVALUE:
-                            alertPopulationValue = getIntegerData(event, eventReader);
+                            
+                        case ALERTPOPULATION:
+                            //boolean 
+                            flag = true;
+                            Iterator iterator2 = element.getAttributes();
+                            while (iterator2.hasNext()) {
+                                Attribute attribute = (Attribute) iterator2.next();
+                                //QName name = attribute.getName();
+                                String value = attribute.getValue();
+                                //System.out.println("Attribute name/value: " + name + "/" + value);
+                                if (flag)
+                                    alertPopulationUnit = value;
+                                else
+                                    alertPopulationValue = Integer.parseInt(value);
+                                flag=false;
+                                
+                            }
+                            
                             break;
                         /*case ALERTPOINT:
                             boolean i=true;
@@ -147,12 +175,12 @@ public class RSSFeedParser {
 
                             for (String ss : arr) {
                                 if (i == 1) {
-                                    System.out.println(ss);
+                                    //System.out.println(ss);
                                     alertPointLat = Float.parseFloat(ss);
                                     i = 8;
                                 } else {
-                                    System.out.println(ss);
-                                    alertPointLat = Float.parseFloat(ss);
+                                    //System.out.println(ss);
+                                    alertPointLong = Float.parseFloat(ss);
                                 }
 
                             }
@@ -165,9 +193,6 @@ public class RSSFeedParser {
                             alertCountry = getStringData(event, eventReader);
                             break;
                     }
-                } else if (event.isAttribute()) {
-                    System.out.println("*******ATTRIBUTE*******");
-
                 } else if (event.isEndElement()) {
                     if (event.asEndElement().getName().getLocalPart() == (ITEM)) {
                         AlertMessage message = new AlertMessage();
@@ -191,8 +216,8 @@ public class RSSFeedParser {
         } catch (XMLStreamException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("going back to getalert");
-        System.out.println(alert);
+        //System.out.println("going back to getalert");
+        //System.out.println(alert);
         return alert;
     }
 
