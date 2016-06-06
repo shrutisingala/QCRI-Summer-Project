@@ -22,32 +22,47 @@ public class DBManager {
 
         //checking
         if (!check(time)) {
+            System.out.println("returning before writing");
             return;
         }
 
         try {
             // Class.forName(JDBC_DRIVER);
-            //System.out.println("ENTERED TRY BLOCK");
+            System.out.println("ENTERED TRY BLOCK");
             connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+            System.out.println("connection made");
             preparedStatement = connection.prepareStatement("INSERT INTO master_alerts VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+            System.out.println("insert statement");
             preparedStatement.setInt(1, id);
+            System.out.println("set1");
             preparedStatement.setString(2, type);
+            System.out.println("set2");
             preparedStatement.setString(3, time);
+            System.out.println("set3");
             preparedStatement.setString(4, severityunit);
+            System.out.println("set4");
             preparedStatement.setFloat(5, severityvalue);
+            System.out.println("set5");
             preparedStatement.setString(6, populationunit);
+            System.out.println("set6");
             preparedStatement.setInt(7, populationvalue);
+            System.out.println("set7");
             preparedStatement.setFloat(8, latitude);
+            System.out.println("set8");
             preparedStatement.setFloat(9, longitude);
+            System.out.println("set9");
             preparedStatement.setString(10, calculationtype);
+            System.out.println("set10");
             preparedStatement.setString(11, country);
+            System.out.println("set11");
             boolean b = preparedStatement.execute();
+            System.out.println("preparedstatement executed");
              if (b == true) {
                 System.out.println("1 record inserted...");
             }
         } catch (SQLException sqlEx) {
 
-            // sqlEx.printStackTrace();
+            sqlEx.printStackTrace();
             System.out.println("hey there");
             System.exit(1);
         } /*catch (ClassNotFoundException clsNotFoundEx) {
@@ -231,7 +246,7 @@ public class DBManager {
      }*/
     public static boolean check(String time) {
 
-        if (DBManager.readtime() == time) {
+        if (time.equals(DBManager.readtime())) {
             return true;
         } else {
             return false;

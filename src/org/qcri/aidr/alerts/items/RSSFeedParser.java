@@ -76,97 +76,61 @@ public class RSSFeedParser {
 
             while (eventReader.hasNext()) {
                 XMLEvent event = eventReader.nextEvent();
-                //System.out.println(event);
-                //System.out.println("-----------------------------------------------------------");
                 if (event.isStartElement()) {
                     String localPart = event.asStartElement().getName()
                             .getLocalPart();
                     StartElement element = (StartElement) event;
-                    
+
                     switch (localPart) {
                         case ITEM:
                             if (isAlertHeader) {
                                 isAlertHeader = false;
-                                alert = new Alerts(alertID, alertType, alertTime, alertSeverityUnit, alertSeverityValue, alertPopulationUnit, alertPopulationValue, alertPointLat, alertPointLong, alertCalculationType, alertCountry);
+                                //alert = new Alerts(alertID, alertType, alertTime, alertSeverityUnit, alertSeverityValue, alertPopulationUnit, alertPopulationValue, alertPointLat, alertPointLong, alertCalculationType, alertCountry);
+                                alert = new Alerts();
                             }
                             event = eventReader.nextEvent();
                             break;
-                        //case ALERTID:
-                        //alertID = getIntegerData(event, eventReader);
-                        //break;
+
                         case ALERTTYPE:
-                            //System.out.println("at alerttype");
                             alertType = getStringData(event, eventReader);
-                            //System.out.println(alertType);
                             break;
                         case ALERTTIME:
                             alertTime = getStringData(event, eventReader);
-                            //System.out.println(alertTime);
                             break;
                         case ALERTSEVERITY:
-                            //System.out.println(event);
-                            //System.out.println("Start Element: " + element.getName());
                             boolean flag = true;
                             Iterator iterator = element.getAttributes();
                             while (iterator.hasNext()) {
                                 Attribute attribute = (Attribute) iterator.next();
-                                //QName name = attribute.getName();
                                 String value = attribute.getValue();
-                                //System.out.println("Attribute name/value: " + name + "/" + value);
-                                if (flag)
+                                if (flag) {
                                     alertSeverityUnit = value;
-                                else
+                                } else {
                                     alertSeverityValue = Float.parseFloat(value);
-                                flag=false;
-                                
+                                }
+                                flag = false;
+
                             }
-                            //alertSeverityUnit = getStringData(event, eventReader);
-                            //System.out.println(alertSeverityUnit);
                             break;
-                            
+
                         case ALERTPOPULATION:
                             //boolean 
                             flag = true;
                             Iterator iterator2 = element.getAttributes();
                             while (iterator2.hasNext()) {
                                 Attribute attribute = (Attribute) iterator2.next();
-                                //QName name = attribute.getName();
                                 String value = attribute.getValue();
-                                //System.out.println("Attribute name/value: " + name + "/" + value);
-                                if (flag)
+                                if (flag) {
                                     alertPopulationUnit = value;
-                                else
+                                } else {
                                     alertPopulationValue = Integer.parseInt(value);
-                                flag=false;
-                                
+                                }
+                                flag = false;
+
                             }
-                            
+
                             break;
-                        /*case ALERTPOINT:
-                            boolean i=true;
-                            do{
-                            event = eventReader.nextEvent();
-                            if (event.isStartElement()) {
-                            localPart = event.asStartElement().getName().getLocalPart();
-                            switch(localPart)
-                            {
-                                case "lat": alertPointLat = getFloatData(event, eventReader);
-                                    System.out.println(" ++++ " + alertPointLat);
-                                            break;
-                                case "long": alertPointLong = getFloatData(event, eventReader);
-                                    System.out.println(alertPointLong);
-                                                i=false;
-                                               break;
-                            }
-                            }
-                            }while(i);
-                            //alertPointLat = getFloatData(event, eventReader);
-                            break;
-                        //case ALERTPOINTLONG:
-                            //alertPointLong = getFloatData(event, eventReader);
-                            //break;
-                            
-                         */
+
                         case ALERTPOINT:
                             String point = getStringData(event, eventReader);
                             int i = 1;
@@ -175,11 +139,9 @@ public class RSSFeedParser {
 
                             for (String ss : arr) {
                                 if (i == 1) {
-                                    //System.out.println(ss);
                                     alertPointLat = Float.parseFloat(ss);
                                     i = 8;
                                 } else {
-                                    //System.out.println(ss);
                                     alertPointLong = Float.parseFloat(ss);
                                 }
 
@@ -216,8 +178,6 @@ public class RSSFeedParser {
         } catch (XMLStreamException e) {
             throw new RuntimeException(e);
         }
-        //System.out.println("going back to getalert");
-        //System.out.println(alert);
         return alert;
     }
 
@@ -229,42 +189,6 @@ public class RSSFeedParser {
             result = event.asCharacters().getData();
         }
         return result;
-    }
-
-    private char getCharacterData(XMLEvent event, XMLEventReader eventReader)
-            throws XMLStreamException {
-        String result = "";
-        event = eventReader.nextEvent();
-        if (event instanceof Characters) {
-            result = event.asCharacters().getData();
-        }
-        char res;
-        res = result.charAt(0);
-        return res;
-    }
-
-    private int getIntegerData(XMLEvent event, XMLEventReader eventReader)
-            throws XMLStreamException {
-        String result = "";
-        event = eventReader.nextEvent();
-        if (event instanceof Characters) {
-            result = event.asCharacters().getData();
-        }
-        int res;
-        res = Integer.parseInt(result);
-        return res;
-    }
-
-    private float getFloatData(XMLEvent event, XMLEventReader eventReader)
-            throws XMLStreamException {
-        String result = "";
-        event = eventReader.nextEvent();
-        if (event instanceof Characters) {
-            result = event.asCharacters().getData();
-        }
-        float res;
-        res = Float.parseFloat(result);
-        return res;
     }
 
     private InputStream read() {

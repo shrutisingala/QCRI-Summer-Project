@@ -7,6 +7,7 @@ package org.qcri.aidr.alerts.items;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import static java.lang.System.exit;
 import java.util.Scanner;
 import java.util.TimerTask;
 import java.util.Timer;
@@ -28,7 +29,10 @@ public class AlertManager {
         String thisAlertTime = null;
         RSSFeedParser parser = new RSSFeedParser("http://www.gdacs.org/xml/rss.xml");
         Alerts alert = parser.readAlert();
-        String publish_time = alert.alertTime;
+        String publish_time = alert.entries.get(0).alertTime;
+        System.out.println("*********************" +publish_time);
+        
+        //String publish_time = "Sun, 5 June 2016 09:56:05 GMT";
         for (AlertMessage message : alert.getMessages()) {
             thisAlertTime = message.alertTime;
             break;
@@ -36,8 +40,9 @@ public class AlertManager {
         SaveFile sf = new SaveFile("http://www.gdacs.org/xml/rss.xml", publish_time, thisAlertTime);
 
         if (!lastAlertTime.equals(thisAlertTime)) {
-            persistAlerts(alert);
+            //persistAlerts(alert);
         }
+        persistAlerts(alert);
     }
 
     public static void persistAlerts(Alerts alert) {

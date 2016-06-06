@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Alerts {
 
-    int alertID;
+    /*int alertID;
     String alertType;
     String alertTime;
     String alertSeverityUnit;
@@ -24,11 +24,11 @@ public class Alerts {
     float alertPointLat;
     float alertPointLong;
     String alertCalculationType;
-    String alertCountry;
+    String alertCountry;*/
 
     final List<AlertMessage> entries = new ArrayList<AlertMessage>();
 
-    public Alerts(int alertID, String alertType, String alertTime, String alertSeverityUnit, float alertSeverityValue, String alertPopulationUnit, int alertPopulationValue, float alertPointLat, float alertPointLong, String alertCalculationType, String alertCountry) {
+    /*public Alerts(int alertID, String alertType, String alertTime, String alertSeverityUnit, float alertSeverityValue, String alertPopulationUnit, int alertPopulationValue, float alertPointLat, float alertPointLong, String alertCalculationType, String alertCountry) {
         this.alertID = alertID;
         this.alertType = alertType;
         this.alertTime = alertTime;
@@ -40,13 +40,13 @@ public class Alerts {
         this.alertPointLong = alertPointLong;
         this.alertCalculationType = alertCalculationType;
         this.alertCountry = alertCountry;
-    }
+    }*/
 
     public List<AlertMessage> getMessages() {
         //System.out.println(entries);
         return entries;
     }
-
+/*
     public int getAlertID() {
         return alertID;
     }
@@ -97,6 +97,6 @@ public class Alerts {
   
     return "\n\"" + alertID + "\", \"" + alertType + "\", \"" + alertTime + "\", \"" + alertSeverityUnit + "\", \"" + alertSeverityValue + "\", \"" +alertPopulationUnit + "\", \"" +alertPopulationValue + "\", \"" + alertPointLat + "\", \"" + alertPointLong  + "\", \"" + alertCalculationType  + "\", \"" + alertCountry + "\"";
   
-  }
+  }*/
 
 }
