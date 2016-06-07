@@ -11,7 +11,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import static java.sql.Types.NULL;
 import java.util.Iterator;
-import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;

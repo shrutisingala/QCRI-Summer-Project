@@ -240,10 +240,7 @@ public class DBManager {
 
         return "";
     }
-
-    /*public static String gettime(String time) {
-    return time;
-     }*/
+    
     public static boolean check(String time) {
 
         if (time.equals(DBManager.readtime())) {
@@ -279,4 +276,21 @@ public class DBManager {
         }
     }
 }*/
+
+    /**
+     *
+     */
+
+    
+    public static boolean checksignificance()
+    {
+        return true;
+    }
+    
+    public static void createsignificant_alerts()
+    {
+        
+    }
+    
+    
 }

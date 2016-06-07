@@ -7,7 +7,6 @@ package org.qcri.aidr.alerts.items;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import static java.lang.System.exit;
 import java.util.Scanner;
 import java.util.TimerTask;
 import java.util.Timer;
