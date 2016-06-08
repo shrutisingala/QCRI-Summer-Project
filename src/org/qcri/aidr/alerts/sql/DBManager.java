@@ -79,6 +79,8 @@ public class DBManager {
         }
         
         
+        
+        
     }
 
     /*public static void updatetype(int alert_id, String alert_type) {
@@ -281,16 +283,6 @@ public class DBManager {
      *
      */
 
-    
-    public static boolean checksignificance()
-    {
-        return true;
-    }
-    
-    public static void createsignificant_alerts()
-    {
-        
-    }
     
     
 }
