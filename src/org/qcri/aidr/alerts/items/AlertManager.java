@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.qcri.aidr.alerts.sql.DBManager.createmaster_alerts;
+import static org.qcri.aidr.alerts.sql.DBManager.createsignificant_alerts;
 import static org.qcri.aidr.alerts.sql.DBManager.readalert;
 
 /**

@@ -5,17 +5,21 @@
  */
 package org.qcri.aidr.alerts.items;
 
+import static org.qcri.aidr.alerts.sql.DBManager.createsignificant_alerts;
+
 /**
  *
  * @author shrutisingala
  */
 public class EQSignificanceChecker {
     
+    int id;
     int pop;
     float mag;
     
-    public EQSignificanceChecker(int p, int m)
+    public EQSignificanceChecker(int i, int p, int m)
     {
+        id=i;
         pop=p;
         mag=m;
     }
@@ -23,8 +27,7 @@ public class EQSignificanceChecker {
     public void Rule1() {
         if (pop >= 10000 && pop <= 50000) {
             if (mag >= 5) {
-                //write to significant table
-                //with description
+                createsignificant_alerts(id, "pop btwn 10k & 50k with mag>=5");
             }
         }
     }
@@ -32,8 +35,7 @@ public class EQSignificanceChecker {
     public void Rule2() {
         if (pop > 50000 && pop <= 100000) {
             if (mag >= 4.5) {
-                //write to significant table
-                //with description
+                createsignificant_alerts(id, "pop btwn 50k & 100k with mag>=4.5");
             }
         }
     }
@@ -41,9 +43,10 @@ public class EQSignificanceChecker {
     public void Rule3() {
         if (pop > 100000) {
             if (mag >= 4) {
-                //write to significant table
-                //with description
+                createsignificant_alerts(id, "pop>100k with mag>=4");
             }
         }
     }
+
+    
 }

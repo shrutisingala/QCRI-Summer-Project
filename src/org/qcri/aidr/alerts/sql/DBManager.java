@@ -3,7 +3,6 @@ package org.qcri.aidr.alerts.sql;
 //heyyaa
 import java.sql.*;
 
-
 public class DBManager {
 
 //import mysql-connector-java-5.1.32.jar 
@@ -12,14 +11,12 @@ public class DBManager {
     final private static String USER = "root";
     final private static String PASSWORD = "shruti";
     //final private static String PASSWORD = "salvivado123";
-    
-    
+
     public static void createmaster_alerts(int id, String type, String time, String severityunit, float severityvalue, String populationunit, int populationvalue, float latitude, float longitude, String calculationtype, String country) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        
-       // System.out.println("ENTERED MASTER ALERTS");
 
+        // System.out.println("ENTERED MASTER ALERTS");
         //checking
         if (!check(time)) {
             System.out.println("returning before writing");
@@ -57,7 +54,7 @@ public class DBManager {
             System.out.println("set11");
             boolean b = preparedStatement.execute();
             System.out.println("preparedstatement executed");
-             if (b == true) {
+            if (b == true) {
                 System.out.println("1 record inserted...");
             }
         } catch (SQLException sqlEx) {
@@ -77,10 +74,7 @@ public class DBManager {
                 System.exit(1);
             }
         }
-        
-        
-        
-        
+
     }
 
     /*public static void updatetype(int alert_id, String alert_type) {
@@ -192,7 +186,7 @@ public class DBManager {
         try {
             //STEP 2: Register JDBC driver
             //Class.forName("com.mysql.jdbc.Driver");
-             System.out.println("IN READ TIME");
+            System.out.println("IN READ TIME");
             //STEP 3: Open a connection
             System.out.println("Connecting to a selected database IN READ TIME...");
             conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
@@ -242,7 +236,7 @@ public class DBManager {
 
         return "";
     }
-    
+
     public static boolean check(String time) {
 
         if (time.equals(DBManager.readtime())) {
@@ -278,11 +272,53 @@ public class DBManager {
         }
     }
 }*/
-
     /**
      *
+     * @param id
+     * @param description
      */
+    public static void createsignificant_alerts(int id, String description) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
 
-    
-    
+        // System.out.println("ENTERED MASTER ALERTS");
+        //checking
+
+        try {
+            // Class.forName(JDBC_DRIVER);
+            System.out.println("ENTERED TRY BLOCK");
+            connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+            System.out.println("connection made");
+            preparedStatement = connection.prepareStatement("INSERT INTO significant_alerts VALUES(?,?)");
+            System.out.println("insert statement");
+            preparedStatement.setInt(1, id);
+            System.out.println("set1");
+            preparedStatement.setString(2, description);
+            System.out.println("set2");
+            
+            boolean b = preparedStatement.execute();
+            System.out.println("preparedstatement executed");
+            if (b == true) {
+                System.out.println("1 record inserted...");
+            }
+        } catch (SQLException sqlEx) {
+
+            sqlEx.printStackTrace();
+            System.out.println("hey there");
+            System.exit(1);
+        } /*catch (ClassNotFoundException clsNotFoundEx) {
+                    clsNotFoundEx.printStackTrace();
+                    System.exit(1);
+             }*/ finally {
+            try {
+                preparedStatement.close();
+                connection.close();
+            } catch (Exception e) {
+                System.out.println("its not WRKING!");
+                System.exit(1);
+            }
+        }
+
+    }
+
 }
