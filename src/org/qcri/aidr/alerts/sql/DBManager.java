@@ -2,10 +2,10 @@ package org.qcri.aidr.alerts.sql;
 
 //heyyaa
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-
-import org.qcri.aidr.alerts.items.AlertMessage;
-
+import org.qcri.aidr.alerts.items.*;
 
 public class DBManager {
 
@@ -19,9 +19,6 @@ public class DBManager {
     public static void createmaster_alerts(int id, String type, String time, String severityunit, float severityvalue, String populationunit, int populationvalue, float latitude, float longitude, String calculationtype, String country) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-
-
-       
 
         try {
             // Class.forName(JDBC_DRIVER);
@@ -76,7 +73,7 @@ public class DBManager {
                 System.exit(1);
             }
         }
-
+        //SignificanceChecker(type, populationvalue, severityvalue);
     }
 
     /*public static void updatetype(int alert_id, String alert_type) {
@@ -209,43 +206,40 @@ public class DBManager {
                 createmaster_alerts(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverityUnit(), message.getAlertSeverityValue(), message.getAlertPopulationUnit(), message.getAlertPopulationValue(), message.getAlertPointLat(), message.getAlertPointLong(), message.getAlertCalculationType(), message.getAlertCountry());
                 return;
             }
-            int flag=0;
+            int flag = 0;
             System.out.println("before while loop");
-            
-            
-            do  {
-                
+
+            do {
+
                 System.out.println("ENTERED WHILE LOOOOP");
                 //rs.next();
                 String t = rs.getString("time");
                 System.out.println("TIME: " + t);
                 //rs.next();
-               // rs.close();
+                // rs.close();
 
                 if (t.equals(message.getAlertTime())) {
                     System.out.println(message.getAlertTime());
                     System.out.println(t);
                     //System.out.println("CREATING!");
                     System.out.println("ALREADY EXISTING");
-                    flag=0;
-                    
+                    flag = 0;
+
                     //createmaster_alerts(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverityUnit(), message.getAlertSeverityValue(), message.getAlertPopulationUnit(), message.getAlertPopulationValue(), message.getAlertPointLat(), message.getAlertPointLong(), message.getAlertCalculationType(), message.getAlertCountry());
                     return;
-                   }
-                else {
-                    flag=1;
+                } else {
+                    flag = 1;
                     //System.out.println("ALERT REPEATING");
                     continue;
-                     }
-            }while(rs.next());
-            
-            if(flag==1)
-            {
-                    System.out.println("SHRUTI");
-              createmaster_alerts(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverityUnit(), message.getAlertSeverityValue(), message.getAlertPopulationUnit(), message.getAlertPopulationValue(), message.getAlertPointLat(), message.getAlertPointLong(), message.getAlertCalculationType(), message.getAlertCountry());  
-              return;
+                }
+            } while (rs.next());
+
+            if (flag == 1) {
+                System.out.println("SHRUTI");
+                createmaster_alerts(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverityUnit(), message.getAlertSeverityValue(), message.getAlertPopulationUnit(), message.getAlertPopulationValue(), message.getAlertPointLat(), message.getAlertPointLong(), message.getAlertCalculationType(), message.getAlertCountry());
+                return;
             }
-            
+
             System.out.println("after while loop");
             rs.close();
 
@@ -283,35 +277,32 @@ public class DBManager {
 
     }
 
+    public static void deletealert(int alert_id) {
 
-      public static void deletealert(int alert_id) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            //Class.forName(JDBC_DRIVER);
+            connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+            preparedStatement = connection.prepareStatement("DELETE FROM master_alerts WHERE alert_id=?");
+            preparedStatement.setFloat(1, alert_id);
+            boolean b = preparedStatement.execute();
+            if (b == true) {
+                System.out.println("1 record deleted...");
+            }
+        } catch (SQLException sqlEx) {
+            sqlEx.printStackTrace();
+            System.exit(1);
+        } finally {
+            try {
+                preparedStatement.close();
+                connection.close();
+            } catch (Exception e) {
+                System.exit(1);
+            }
+        }
+    }
 
-     Connection connection = null;
-     PreparedStatement preparedStatement = null;
-     try {
-     //Class.forName(JDBC_DRIVER);
-     connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
-     preparedStatement = connection.prepareStatement("DELETE FROM master_alerts WHERE alert_id=?");
-     preparedStatement.setFloat(1, alert_id);
-     boolean b = preparedStatement.execute();
-     if (b == true) {
-     System.out.println("1 record deleted...");
-     }
-     } catch (SQLException sqlEx) {
-     sqlEx.printStackTrace();
-     System.exit(1);
-     } finally {
-     try {
-     preparedStatement.close();
-     connection.close();
-     } catch (Exception e) {
-     System.exit(1);
-     }
-     }
-     }
-     
-
-        
     /**
      *
      * @param id
@@ -323,7 +314,6 @@ public class DBManager {
 
         // System.out.println("ENTERED MASTER ALERTS");
         //checking
-
         try {
             // Class.forName(JDBC_DRIVER);
             System.out.println("ENTERED TRY BLOCK");
@@ -335,7 +325,7 @@ public class DBManager {
             System.out.println("set1");
             preparedStatement.setString(2, description);
             System.out.println("set2");
-            
+
             boolean b = preparedStatement.execute();
             System.out.println("preparedstatement executed");
             if (b == true) {
@@ -361,5 +351,58 @@ public class DBManager {
 
     }
 
+    public static void SignificanceChecker(String type, int pop_value, float sev_value) {
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+
+            conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+
+            stmt = conn.createStatement();
+            String sql = "SELECT id FROM master_alerts";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            do {
+
+            } while (rs.next());
+
+            int id = rs.getInt("id");
+            System.out.println(id);
+            rs.close();
+            if (type == "EQ") {
+                EQSignificanceChecker EQ = new EQSignificanceChecker(id, pop_value, sev_value);
+                EQ.Rule1();
+                EQ.Rule2();
+                EQ.Rule3();
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        
+            System.out.println("SQL EXC");
+            ex.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("EXCEPTION");
+            e.printStackTrace();
+        }finally {
+
+            //finally block used to close resources
+            try {
+                if (stmt != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+            }// do nothing
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+
+        }
+
+    }
 
 }
