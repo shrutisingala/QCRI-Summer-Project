@@ -3,7 +3,9 @@ package org.qcri.aidr.alerts.sql;
 //heyyaa
 import java.sql.*;
 
+
 import org.qcri.aidr.alerts.items.AlertMessage;
+
 
 public class DBManager {
 
@@ -11,43 +13,55 @@ public class DBManager {
 //http://www.tutorialspoint.com/jdbc/jdbc-create-tables.html 
     final private static String JDBC_URL = "jdbc:mysql://localhost:3306/alerts";
     final private static String USER = "root";
-
-    final private static String PASSWORD = "salvivado123";
-
+    final private static String PASSWORD = "shruti";
     //final private static String PASSWORD = "salvivado123";
+
     public static void createmaster_alerts(int id, String type, String time, String severityunit, float severityvalue, String populationunit, int populationvalue, float latitude, float longitude, String calculationtype, String country) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
-       // System.out.println("ENTERED MASTER ALERTS");
-        //checking
-       /* if (!check(time)) {
-         System.out.println("IN CHECK FUNC");
-         return;
-         }*/
+
+       
+
         try {
             // Class.forName(JDBC_DRIVER);
             System.out.println("ENTERED TRY BLOCK");
             connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+            System.out.println("connection made");
             preparedStatement = connection.prepareStatement("INSERT INTO master_alerts VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+            System.out.println("insert statement");
             preparedStatement.setInt(1, id);
+            System.out.println("set1");
             preparedStatement.setString(2, type);
+            System.out.println("set2");
             preparedStatement.setString(3, time);
+            System.out.println("set3");
             preparedStatement.setString(4, severityunit);
+            System.out.println("set4");
             preparedStatement.setFloat(5, severityvalue);
+            System.out.println("set5");
             preparedStatement.setString(6, populationunit);
+            System.out.println("set6");
             preparedStatement.setInt(7, populationvalue);
+            System.out.println("set7");
             preparedStatement.setFloat(8, latitude);
+            System.out.println("set8");
             preparedStatement.setFloat(9, longitude);
+            System.out.println("set9");
             preparedStatement.setString(10, calculationtype);
+            System.out.println("set10");
             preparedStatement.setString(11, country);
+            System.out.println("set11");
             boolean b = preparedStatement.execute();
+
+            System.out.println("preparedstatement executed");
+
             if (b == true) {
                 System.out.println("1 record inserted...");
             }
         } catch (SQLException sqlEx) {
 
-            // sqlEx.printStackTrace();
+            sqlEx.printStackTrace();
             System.out.println("hey there");
             System.exit(1);
         } /*catch (ClassNotFoundException clsNotFoundEx) {
@@ -269,20 +283,9 @@ public class DBManager {
 
     }
 
-    /*public static String gettime(String time) {
-     return time;
-     }*/
-    /* public static boolean check(String time) {
 
-     if (time.equals(DBManager.readtime())) {
-     return true;
-     } else {
-     return false;
-     }
+      public static void deletealert(int alert_id) {
 
-     }*/
-
-    /*  public static void deletealert(int alert_id) {
      Connection connection = null;
      PreparedStatement preparedStatement = null;
      try {
@@ -306,5 +309,57 @@ public class DBManager {
      }
      }
      }
-     }*/
+     
+
+        
+    /**
+     *
+     * @param id
+     * @param description
+     */
+    public static void createsignificant_alerts(int id, String description) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        // System.out.println("ENTERED MASTER ALERTS");
+        //checking
+
+        try {
+            // Class.forName(JDBC_DRIVER);
+            System.out.println("ENTERED TRY BLOCK");
+            connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+            System.out.println("connection made");
+            preparedStatement = connection.prepareStatement("INSERT INTO significant_alerts VALUES(?,?)");
+            System.out.println("insert statement");
+            preparedStatement.setInt(1, id);
+            System.out.println("set1");
+            preparedStatement.setString(2, description);
+            System.out.println("set2");
+            
+            boolean b = preparedStatement.execute();
+            System.out.println("preparedstatement executed");
+            if (b == true) {
+                System.out.println("1 record inserted...");
+            }
+        } catch (SQLException sqlEx) {
+
+            sqlEx.printStackTrace();
+            System.out.println("hey there");
+            System.exit(1);
+        } /*catch (ClassNotFoundException clsNotFoundEx) {
+                    clsNotFoundEx.printStackTrace();
+                    System.exit(1);
+             }*/ finally {
+            try {
+                preparedStatement.close();
+                connection.close();
+            } catch (Exception e) {
+                System.out.println("its not WRKING!");
+                System.exit(1);
+            }
+        }
+
+    }
+
+
 }
