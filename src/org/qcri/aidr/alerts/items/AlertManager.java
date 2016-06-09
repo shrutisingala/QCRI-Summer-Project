@@ -12,9 +12,11 @@ import java.util.TimerTask;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.qcri.aidr.alerts.sql.DBManager;
 
 import static org.qcri.aidr.alerts.sql.DBManager.createmaster_alerts;
 import static org.qcri.aidr.alerts.sql.DBManager.readalert;
+import static org.qcri.aidr.alerts.sql.DBManager.readtime;
 
 /**
  *
@@ -36,19 +38,25 @@ public class AlertManager {
         SaveFile sf = new SaveFile("http://www.gdacs.org/xml/rss.xml", publish_time, thisAlertTime);
 
         if (!lastAlertTime.equals(thisAlertTime)) {
-            persistAlerts(alert);
+           //persistAlerts(alert);
         }
+        persistAlerts(alert);
     }
 
     public static void persistAlerts(Alerts alert) {
-
+        //System.out.println("MUDRA");
         for (AlertMessage message : alert.getMessages()) {
-            createmaster_alerts(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverityUnit(), message.getAlertSeverityValue(), message.getAlertPopulationUnit(), message.getAlertPopulationValue(), message.getAlertPointLat(), message.getAlertPointLong(), message.getAlertCalculationType(), message.getAlertCountry());
+            System.out.println("in persist, before readtime");
+             readtime(message);  
+             System.out.println("in persist, after readtime");
+            //createmaster_alerts(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverityUnit(), message.getAlertSeverityValue(), message.getAlertPopulationUnit(), message.getAlertPopulationValue(), message.getAlertPointLat(), message.getAlertPointLong(), message.getAlertCalculationType(), message.getAlertCountry());
+        
         }
     }
 
     public static String finder() throws FileNotFoundException {
-        String content = new Scanner(new File("/Users/shrutisingala/NetBeansProjects/QCRI-Summer-Project/XML Files/Latest.txt")).useDelimiter("\\Z").next();
+        String content = new Scanner(new File("C:\\Users\\lenovo\\Documents\\NetBeansProjects\\QCRI-Summer-Project\\XML Files\\Latest.txt")).useDelimiter("\\Z").next();
+        //String content = new Scanner(new File("/Users/shrutisingala/NetBeansProjects/QCRI-Summer-Project/XML Files/Latest.txt")).useDelimiter("\\Z").next();
         return content;
     }
 
@@ -78,6 +86,8 @@ public class AlertManager {
         }
 
     }
+    
+
 
     /**
      *
@@ -85,6 +95,8 @@ public class AlertManager {
      * @throws java.io.FileNotFoundException
      */
     public static void main(String args[]) throws FileNotFoundException {
+        
+       // DBManager db;
 
         fiveMinuteScheduler run = new fiveMinuteScheduler();
     }
