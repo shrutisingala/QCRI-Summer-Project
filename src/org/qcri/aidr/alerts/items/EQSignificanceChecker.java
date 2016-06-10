@@ -17,7 +17,7 @@ public class EQSignificanceChecker {
     int pop;
     float mag;
     
-    public EQSignificanceChecker(int i, int p, int m)
+    public EQSignificanceChecker(int i, int p, float m)
     {
         id=i;
         pop=p;
