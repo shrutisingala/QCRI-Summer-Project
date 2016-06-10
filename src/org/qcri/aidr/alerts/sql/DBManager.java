@@ -13,8 +13,8 @@ public class DBManager {
 //http://www.tutorialspoint.com/jdbc/jdbc-create-tables.html 
     final private static String JDBC_URL = "jdbc:mysql://localhost:3306/alerts";
     final private static String USER = "root";
-    final private static String PASSWORD = "shruti";
-    //final private static String PASSWORD = "salvivado123";
+    //final private static String PASSWORD = "shruti";
+    final private static String PASSWORD = "salvivado123";
 
     public static void createmaster_alerts(int id, String type, String time, String severityunit, float severityvalue, String populationunit, int populationvalue, float latitude, float longitude, String calculationtype, String country) {
         Connection connection = null;
