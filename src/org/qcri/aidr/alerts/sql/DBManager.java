@@ -13,8 +13,8 @@ public class DBManager {
 //http://www.tutorialspoint.com/jdbc/jdbc-create-tables.html 
     final private static String JDBC_URL = "jdbc:mysql://localhost:3306/alerts";
     final private static String USER = "root";
-    //final private static String PASSWORD = "shruti";
-    final private static String PASSWORD = "salvivado123";
+    final private static String PASSWORD = "shruti";
+    //final private static String PASSWORD = "salvivado123";
 
     public static void createmaster_alerts(int id, String type, String time, String severityunit, float severityvalue, String populationunit, int populationvalue, float latitude, float longitude, String calculationtype, String country) {
         Connection connection = null;
@@ -65,7 +65,7 @@ public class DBManager {
           finally {
             try {
                 System.out.println("BEFORE ENTERING SIG CHECKER");
-                //SignificanceChecker(type, populationvalue, severityvalue);
+                SignificanceChecker(type, populationvalue, severityvalue);
                 preparedStatement.close();
                 connection.close();
             } catch (Exception e) {
@@ -74,7 +74,7 @@ public class DBManager {
             }
         }
         System.out.println("OUTSIDE FINALLY BLOCK");
-        SignificanceChecker(type, populationvalue, severityvalue);
+        //SignificanceChecker(type, populationvalue, severityvalue);
     }
 
     /*public static void updatetype(int alert_id, String alert_type) {
@@ -368,19 +368,22 @@ public class DBManager {
             String sql = "SELECT id FROM master_alerts";
             ResultSet rs = stmt.executeQuery(sql);
 
-            do {
-
-            } while (rs.next());
+            rs.last();
 
             int id = rs.getInt("id");
             System.out.println(id);
-            rs.close();
-            if (type == "EQ") {
+            String str= "EQ";
+            if (str.equals(type)) {
+                System.out.println("ENTERED IF");
                 EQSignificanceChecker EQ = new EQSignificanceChecker(id, pop_value, sev_value);
+                System.out.println("before rule 1");
                 EQ.Rule1();
+                System.out.println("before rule 2");
                 EQ.Rule2();
+                System.out.println("before rule 3");
                 EQ.Rule3();
             }
+            rs.close();
             
         } catch (SQLException se) {
             //Handle errors for JDBC

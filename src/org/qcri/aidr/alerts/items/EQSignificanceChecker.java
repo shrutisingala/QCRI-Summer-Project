@@ -27,6 +27,7 @@ public class EQSignificanceChecker {
     public void Rule1() {
         if (pop >= 10000 && pop <= 50000) {
             if (mag >= 5) {
+                System.out.println("in rule 1");
                 createsignificant_alerts(id, "pop btwn 10k & 50k with mag>=5");
             }
         }
@@ -35,6 +36,7 @@ public class EQSignificanceChecker {
     public void Rule2() {
         if (pop > 50000 && pop <= 100000) {
             if (mag >= 4.5) {
+                System.out.println("in rule 2");
                 createsignificant_alerts(id, "pop btwn 50k & 100k with mag>=4.5");
             }
         }
@@ -43,6 +45,7 @@ public class EQSignificanceChecker {
     public void Rule3() {
         if (pop > 100000) {
             if (mag >= 4) {
+                System.out.println("in rule 3");
                 createsignificant_alerts(id, "pop>100k with mag>=4");
             }
         }
