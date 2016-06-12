@@ -61,19 +61,20 @@ public class DBManager {
             sqlEx.printStackTrace();
             System.out.println("hey there");
             System.exit(1);
-        } /*catch (ClassNotFoundException clsNotFoundEx) {
-         clsNotFoundEx.printStackTrace();
-         System.exit(1);
-         }*/ finally {
+        } 
+          finally {
             try {
+                System.out.println("BEFORE ENTERING SIG CHECKER");
+                //SignificanceChecker(type, populationvalue, severityvalue);
                 preparedStatement.close();
                 connection.close();
             } catch (Exception e) {
-                System.out.println("its not WRKING!");
+                System.out.println("its not WORKING!");
                 System.exit(1);
             }
         }
-        //SignificanceChecker(type, populationvalue, severityvalue);
+        System.out.println("OUTSIDE FINALLY BLOCK");
+        SignificanceChecker(type, populationvalue, severityvalue);
     }
 
     /*public static void updatetype(int alert_id, String alert_type) {
@@ -350,15 +351,20 @@ public class DBManager {
         }
 
     }
-
+    
+    
     public static void SignificanceChecker(String type, int pop_value, float sev_value) {
+   
+    
         Connection conn = null;
         Statement stmt = null;
+
         try {
+             System.out.println("IN SIGNIFICANT ALERTS CHECKER");
+             conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
 
-            conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+             stmt = conn.createStatement();
 
-            stmt = conn.createStatement();
             String sql = "SELECT id FROM master_alerts";
             ResultSet rs = stmt.executeQuery(sql);
 
@@ -375,16 +381,15 @@ public class DBManager {
                 EQ.Rule2();
                 EQ.Rule3();
             }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
-        
+            
+        } catch (SQLException se) {
+            //Handle errors for JDBC
             System.out.println("SQL EXC");
-            ex.printStackTrace();
+            se.printStackTrace();
         } catch (Exception e) {
             System.out.println("EXCEPTION");
             e.printStackTrace();
-        }finally {
+        } finally {
 
             //finally block used to close resources
             try {
@@ -403,6 +408,11 @@ public class DBManager {
 
         }
 
+        System.out.println("Goodbye!");
+
     }
+    
+
+    
 
 }
