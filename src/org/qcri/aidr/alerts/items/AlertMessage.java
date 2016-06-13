@@ -19,8 +19,15 @@ public class AlertMessage {
     int alertID;
     String alertType;
     String alertTime;
-    String alertSeverity;
-    String alertPopulation;
+    String alertSeverityUnit;
+    float alertSeverityValue;
+    String alertPopulationUnit;
+    int alertPopulationValue;
+    float alertPointLat;
+    float alertPointLong;
+    String alertCalculationType;
+    String alertCountry;
+    
 
   public int getAlertID() {
     return alertID;
@@ -46,27 +53,75 @@ public class AlertMessage {
     this.alertTime = alertTime;
   }
   
-  public String getAlertSeverity() {
-    return alertSeverity;
+  public String getAlertSeverityUnit() {
+    return alertSeverityUnit;
   }
 
-  public void setAlertSeverity(String alertSeverity) {
-    this.alertSeverity = alertSeverity;
+  public void setAlertSeverityUnit(String alertSeverityUnit) {
+    this.alertSeverityUnit = alertSeverityUnit;
   }
   
-  public String getAlertPopulation() {
-    return alertPopulation;
+  public float getAlertSeverityValue() {
+    return alertSeverityValue;
   }
 
-  public void setAlertPopulation(String alertPopulation) {
-    this.alertPopulation = alertPopulation;
+  public void setAlertSeverityValue(float alertSeverityValue) {
+    this.alertSeverityValue = alertSeverityValue;
   }
+  
+  public String getAlertPopulationUnit() {
+    return alertPopulationUnit;
+  }
+
+  public void setAlertPopulationUnit(String alertPopulationUnit) {
+    this.alertPopulationUnit = alertPopulationUnit;
+  }
+  
+  public int getAlertPopulationValue() {
+    return alertPopulationValue;
+  }
+
+  public void setAlertPopulationValue(int alertPopulationValue) {
+    this.alertPopulationValue = alertPopulationValue;
+  }
+    
+  public float getAlertPointLat() {
+    return alertPointLat;
+  }
+
+  public void setAlertPointLat(float alertPointLat) {
+    this.alertPointLat = alertPointLat;
+  }
+  
+  public float getAlertPointLong() {
+    return alertPointLong;
+  }
+
+  public void setAlertPointLong(float alertPointLong) {
+    this.alertPointLong = alertPointLong;
+  }
+  
+  public String getAlertCalculationType() {
+        return alertCalculationType;
+    }
+  
+  public void setAlertCalculationType(String alertCalculationType) {
+        this.alertCalculationType = alertCalculationType;
+    }
+
+  public String getAlertCountry() {
+        return alertCountry;
+    }
+  
+  public void setAlertCountry(String alertCountry) {
+        this.alertCountry = alertCountry;
+    }
 
   @Override
   public String toString() {
     
   
-    return "\n\"" + alertID + "\", \"" + alertType + "\", \"" + alertTime + "\", \"" + alertSeverity + "\", \"" + alertPopulation + "\"";
+    return "\n\"" + alertID + "\", \"" + alertType + "\", \"" + alertTime + "\", \"" + alertSeverityUnit + "\", \"" + alertSeverityValue + "\", \"" +alertPopulationUnit + "\", \"" +alertPopulationValue + "\", \"" + alertPointLat + "\", \"" + alertPointLong  + "\", \"" + alertCalculationType  + "\", \"" + alertCountry + "\"";
   
   }
 }

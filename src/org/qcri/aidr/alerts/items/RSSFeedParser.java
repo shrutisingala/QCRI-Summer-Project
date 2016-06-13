@@ -5,143 +5,196 @@
  */
 package org.qcri.aidr.alerts.items;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import static java.sql.Types.NULL;
-
+import java.util.Iterator;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.Characters;
+import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
-
-
 
 /**
  *
  * @author shrutisingala
  */
 public class RSSFeedParser {
-  
-  
- 
-  static final String ALERTID = "eventid";
-  static final String ALERTTYPE = "eventtype";
-  static final String ALERTTIME = "pubDate";
-  static final String ALERTSEVERITY = "severity";
-  static final String ALERTPOPULATION = "population";
-  static final String ITEM = "item";
 
+    static final String ALERTID = "eventid";
+    static final String ALERTTYPE = "eventtype";
+    static final String ALERTTIME = "pubDate";
+    static final String ALERTSEVERITY = "severity";
+    static final String ALERTPOPULATION = "population";
+    static final String ALERTPOINT = "point";
+    static final String ALERTCALCULATIONTYPE = "calculationtype";
+    static final String ALERTCOUNTRY = "country";
 
-  final URL url;
-  
-  public RSSFeedParser(String feedUrl) {
-    try {
-      this.url = new URL(feedUrl);
-    } catch (MalformedURLException e) {
-      throw new RuntimeException(e);
-    }
-  }
+    static final String ITEM = "item";
 
-  public Alerts readAlert() {
-    Alerts alert = null;
-    try {
-      boolean isAlertHeader = true;
-      
-      // Set header values intial to the empty string
-      
-      int alertID = NULL;
-      String alertType = "";
-      String alertTime = "";
-      String alertSeverity = "";
-      String alertPopulation = "";
+    final URL url;
 
-      // First create a new XMLInputFactory
-      XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-      // Setup a new eventReader
-      InputStream in = read();
-      XMLEventReader eventReader = inputFactory.createXMLEventReader(in);
-      // read the XML document
-      
-      while (eventReader.hasNext()) {
-        XMLEvent event = eventReader.nextEvent();
-        if (event.isStartElement()) {
-          String localPart = event.asStartElement().getName()
-              .getLocalPart();
-          switch (localPart) {
-          case ITEM:
-            if (isAlertHeader) {
-              isAlertHeader = false;
-              alert = new Alerts(alertID, alertType, alertTime, alertSeverity, alertPopulation);
-            }
-            event = eventReader.nextEvent();
-            break;
-          //case ALERTID:
-            //alertID = getIntegerData(event, eventReader);
-            //break;
-          case ALERTTYPE:
-            alertType = getCharacterData(event, eventReader);
-            break;
-          case ALERTTIME:
-            alertTime = getCharacterData(event, eventReader);
-            break;
-          case ALERTSEVERITY:
-            alertSeverity = getCharacterData(event, eventReader);
-            break;
-          case ALERTPOPULATION:
-            alertPopulation = getCharacterData(event, eventReader);
-            break;
-          }
-        } else if (event.isEndElement()) {
-          if (event.asEndElement().getName().getLocalPart() == (ITEM)) {
-            AlertMessage message = new AlertMessage();
-            message.setAlertID(alertID);
-            message.setAlertType(alertType);
-            message.setAlertTime(alertTime);
-            message.setAlertSeverity(alertSeverity);
-            message.setAlertPopulation(alertPopulation);
-            alert.getMessages().add(message);
-            event = eventReader.nextEvent();
-            continue;
-          }
+    public RSSFeedParser(String feedUrl) {
+        try {
+            this.url = new URL(feedUrl);
+            //System.out.println("inside the rssFeedparser constructor");
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
         }
-      }
-    } catch (XMLStreamException e) {
-      throw new RuntimeException(e);
     }
-    return alert;
-  }
 
-  private String getCharacterData(XMLEvent event, XMLEventReader eventReader)
-      throws XMLStreamException {
-    String result = "";
-    event = eventReader.nextEvent();
-    if (event instanceof Characters) {
-      result = event.asCharacters().getData();
-    }
-    return result;
-  }
-  
-  private int getIntegerData(XMLEvent event, XMLEventReader eventReader)
-      throws XMLStreamException {
-    String result = "";
-    event = eventReader.nextEvent();
-    if (event instanceof Characters) {
-      result = event.asCharacters().getData();
-    }
-    int res;
-    res=Integer.parseInt(result);
-    return res;
-  }
+    public Alerts readAlert() {
+        Alerts alert = null;
+        try {
+            //System.out.println("inside readalert parser");
+            boolean isAlertHeader = true;
 
-  private InputStream read() {
-    try {
-      return url.openStream();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+            // Set header values intial to the empty string
+            int alertID = NULL;
+            String alertType = "";
+            String alertTime = "";
+            String alertSeverityUnit = "";
+            float alertSeverityValue = 0;
+            String alertPopulationUnit = "";
+            int alertPopulationValue = 0;
+            float alertPointLat = 0;
+            float alertPointLong = 0;
+            String alertCalculationType = "";
+            String alertCountry = "";
+
+            // First create a new XMLInputFactory
+            XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+            // Setup a new eventReader
+            InputStream in = read();
+            XMLEventReader eventReader = inputFactory.createXMLEventReader(in);
+            // read the XML document
+
+            while (eventReader.hasNext()) {
+                XMLEvent event = eventReader.nextEvent();
+                if (event.isStartElement()) {
+                    String localPart = event.asStartElement().getName()
+                            .getLocalPart();
+                    StartElement element = (StartElement) event;
+
+                    switch (localPart) {
+                        case ITEM:
+                            if (isAlertHeader) {
+                                isAlertHeader = false;
+                                //alert = new Alerts(alertID, alertType, alertTime, alertSeverityUnit, alertSeverityValue, alertPopulationUnit, alertPopulationValue, alertPointLat, alertPointLong, alertCalculationType, alertCountry);
+                                alert = new Alerts();
+                            }
+                            event = eventReader.nextEvent();
+                            break;
+
+                        case ALERTTYPE:
+                            alertType = getStringData(event, eventReader);
+                            break;
+                        case ALERTTIME:
+                            alertTime = getStringData(event, eventReader);
+                            break;
+                        case ALERTSEVERITY:
+                            boolean flag = true;
+                            Iterator iterator = element.getAttributes();
+                            while (iterator.hasNext()) {
+                                Attribute attribute = (Attribute) iterator.next();
+                                String value = attribute.getValue();
+                                if (flag) {
+                                    alertSeverityUnit = value;
+                                } else {
+                                    alertSeverityValue = Float.parseFloat(value);
+                                }
+                                flag = false;
+
+                            }
+                            break;
+
+                        case ALERTPOPULATION:
+                            //boolean 
+                            flag = true;
+                            Iterator iterator2 = element.getAttributes();
+                            while (iterator2.hasNext()) {
+                                Attribute attribute = (Attribute) iterator2.next();
+                                String value = attribute.getValue();
+                                if (flag) {
+                                    alertPopulationUnit = value;
+                                } else {
+                                    alertPopulationValue = Integer.parseInt(value);
+                                }
+                                flag = false;
+
+                            }
+
+                            break;
+
+                        case ALERTPOINT:
+                            String point = getStringData(event, eventReader);
+                            int i = 1;
+
+                            String[] arr = point.split(" ");
+
+                            for (String ss : arr) {
+                                if (i == 1) {
+                                    alertPointLat = Float.parseFloat(ss);
+                                    i = 8;
+                                } else {
+                                    alertPointLong = Float.parseFloat(ss);
+                                }
+
+                            }
+                            break;
+
+                        case ALERTCALCULATIONTYPE:
+                            alertCalculationType = getStringData(event, eventReader);
+                            break;
+                        case ALERTCOUNTRY:
+                            alertCountry = getStringData(event, eventReader);
+                            break;
+                    }
+                } else if (event.isEndElement()) {
+                    if (event.asEndElement().getName().getLocalPart() == (ITEM)) {
+                        AlertMessage message = new AlertMessage();
+                        message.setAlertID(alertID);
+                        message.setAlertType(alertType);
+                        message.setAlertTime(alertTime);
+                        message.setAlertSeverityUnit(alertSeverityUnit);
+                        message.setAlertSeverityValue(alertSeverityValue);
+                        message.setAlertPopulationUnit(alertPopulationUnit);
+                        message.setAlertPopulationValue(alertPopulationValue);
+                        message.setAlertPointLat(alertPointLat);
+                        message.setAlertPointLong(alertPointLong);
+                        message.setAlertCalculationType(alertCalculationType);
+                        message.setAlertCountry(alertCountry);
+                        alert.getMessages().add(message);
+                        event = eventReader.nextEvent();
+                        continue;
+                    }
+                }
+            }
+        } catch (XMLStreamException e) {
+            throw new RuntimeException(e);
+        }
+        return alert;
     }
-  }
+
+    private String getStringData(XMLEvent event, XMLEventReader eventReader)
+            throws XMLStreamException {
+        String result = "";
+        event = eventReader.nextEvent();
+        if (event instanceof Characters) {
+            result = event.asCharacters().getData();
+        }
+        return result;
+    }
+
+    private InputStream read() {
+        try {
+            return url.openStream();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
