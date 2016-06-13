@@ -15,7 +15,8 @@ import java.util.logging.Logger;
 import org.qcri.aidr.alerts.sql.DBManager;
 
 import static org.qcri.aidr.alerts.sql.DBManager.createmaster_alerts;
-import static org.qcri.aidr.alerts.sql.DBManager.readalert;
+import static org.qcri.aidr.alerts.sql.DBManager.readmasteralert;
+import static org.qcri.aidr.alerts.sql.DBManager.readsignificantalert;
 import static org.qcri.aidr.alerts.sql.DBManager.readtime;
 
 /**
@@ -60,7 +61,7 @@ public class AlertManager {
     }
 
     public static String finder() throws FileNotFoundException {
-        //String content = new Scanner(new File("C:\\Users\\lenovo\\Documents\\NetBeansProjects\\QCRI-Summer-Project\\XML Files\\Latest.txt")).useDelimiter("\\Z").next();
+        //tring content = new Scanner(new File("C:\\Users\\lenovo\\Documents\\NetBeansProjects\\QCRI-Summer-Project\\XML Files\\Latest.txt")).useDelimiter("\\Z").next();
         String content = new Scanner(new File("/Users/shrutisingala/NetBeansProjects/QCRI-Summer-Project/XML Files/Latest.txt")).useDelimiter("\\Z").next();
         return content;
     }
@@ -81,7 +82,8 @@ public class AlertManager {
             public void run() {
                 try {
                     getAlerts();
-                    readalert();
+                    readmasteralert();
+                    readsignificantalert();
                     System.out.println("Time's up! Run over.");
 
                 } catch (FileNotFoundException ex) {

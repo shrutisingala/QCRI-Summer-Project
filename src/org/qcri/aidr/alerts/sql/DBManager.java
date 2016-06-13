@@ -101,7 +101,7 @@ public class DBManager {
      }
      }
      }*/
-    public static void readalert() {
+    public static void readmasteralert() {
 
         Connection conn = null;
         Statement stmt = null;
@@ -172,6 +172,64 @@ public class DBManager {
         }//end try
         System.out.println("Goodbye!");
     }//end main
+    
+    
+    public static void readsignificantalert() {
+
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+
+            System.out.println("Connecting to a selected database to read SIGNIFICANT alert...");
+            conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+            System.out.println("Connected database successfully...");
+
+            //STEP 4: Execute a query
+            System.out.println("Creating statement...");
+            stmt = conn.createStatement();
+
+            String sql = "SELECT * FROM significant_alerts";
+            ResultSet rs = stmt.executeQuery(sql);
+            //STEP 5: Extract data from result set
+            while (rs.next()) {
+                //Retrieve by column name
+                int id = rs.getInt("id");
+                String des = rs.getString("description");
+                
+
+                System.out.println("significantalert_id     description");
+                //Display values
+                System.out.print("\n" + id);
+                System.out.print("        " + des);
+               
+            }
+            rs.close();
+        } catch (SQLException se) {
+
+            se.printStackTrace();
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        } finally {
+            //finally block used to close resources
+            try {
+                if (stmt != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+            }// do nothing
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }//end finally try
+        }//end try
+        System.out.println("Goodbye!");
+    }
+    
+    
 
     public static void readtime(AlertMessage message) {
         // static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
@@ -315,8 +373,9 @@ public class DBManager {
         // System.out.println("ENTERED MASTER ALERTS");
         //checking
         try {
+            System.out.println("ENTERED SIGNIFICANT ALERTS");
             // Class.forName(JDBC_DRIVER);
-            System.out.println("ENTERED TRY BLOCK");
+            System.out.println("ENTERED SIGNIFICANT ALERTS TRY BLOCK");
             connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
             System.out.println("connection made");
             preparedStatement = connection.prepareStatement("INSERT INTO significant_alerts VALUES(?,?)");
