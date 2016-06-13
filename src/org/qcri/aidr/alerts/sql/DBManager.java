@@ -316,8 +316,9 @@ public class DBManager {
         // System.out.println("ENTERED MASTER ALERTS");
         //checking
         try {
+            System.out.println("ENTERED SIGNIFICANT ALERTS");
             // Class.forName(JDBC_DRIVER);
-            System.out.println("ENTERED TRY BLOCK");
+            System.out.println("ENTERED SIGNIFICANT ALERTS TRY BLOCK");
             connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
             System.out.println("connection made");
             preparedStatement = connection.prepareStatement("INSERT INTO significant_alerts VALUES(?,?)");
