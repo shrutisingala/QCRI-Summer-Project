@@ -13,7 +13,7 @@ public class DBManager {
 //http://www.tutorialspoint.com/jdbc/jdbc-create-tables.html 
     final private static String JDBC_URL = "jdbc:mysql://localhost:3306/alerts";
     final private static String USER = "root";
-   // final private static String PASSWORD = "shruti";
+    //final private static String PASSWORD = "shruti";
     final private static String PASSWORD = "salvivado123";
 
     public static void createmaster_alerts(int id, String type, String time, String severityunit, float severityvalue, String populationunit, int populationvalue, float latitude, float longitude, String calculationtype, String country) {
@@ -61,8 +61,7 @@ public class DBManager {
             sqlEx.printStackTrace();
             System.out.println("hey there");
             System.exit(1);
-        } 
-          finally {
+        } finally {
             try {
                 System.out.println("BEFORE ENTERING SIG CHECKER");
                 SignificanceChecker(type, populationvalue, severityvalue);
@@ -102,7 +101,7 @@ public class DBManager {
      }
      }
      }*/
-    public static void readalert() {
+    public static void readmasteralert() {
 
         Connection conn = null;
         Statement stmt = null;
@@ -410,19 +409,17 @@ public class DBManager {
         }
 
     }
-    
-    
+
     public static void SignificanceChecker(String type, int pop_value, float sev_value) {
-   
-    
+
         Connection conn = null;
         Statement stmt = null;
 
         try {
-             System.out.println("IN SIGNIFICANT ALERTS CHECKER");
-             conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+            System.out.println("IN SIGNIFICANT ALERTS CHECKER");
+            conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
 
-             stmt = conn.createStatement();
+            stmt = conn.createStatement();
 
             String sql = "SELECT id FROM master_alerts";
             ResultSet rs = stmt.executeQuery(sql);
@@ -431,19 +428,20 @@ public class DBManager {
 
             int id = rs.getInt("id");
             System.out.println(id);
-            String str= "EQ";
-            if (str.equals(type)) {
+            if ("EQ".equals(type)) {
                 System.out.println("ENTERED IF");
                 EQSignificanceChecker EQ = new EQSignificanceChecker(id, pop_value, sev_value);
-                System.out.println("before rule 1");
-                EQ.Rule1();
-                System.out.println("before rule 2");
-                EQ.Rule2();
-                System.out.println("before rule 3");
-                EQ.Rule3();
+                if (EQ.Rule1()) {
+                    createsignificant_alerts(id, "pop btwn 10k & 50k with mag>=5");
+                } else if (EQ.Rule2()) {
+                    createsignificant_alerts(id, "pop btwn 50k & 100k with mag>=4.5");
+                } else if (EQ.Rule3()) {
+                    createsignificant_alerts(id, "pop>100k with mag>=4");
+                }
+
             }
             rs.close();
-            
+
         } catch (SQLException se) {
             //Handle errors for JDBC
             System.out.println("SQL EXC");
@@ -473,8 +471,5 @@ public class DBManager {
         System.out.println("Goodbye!");
 
     }
-    
-
-    
 
 }

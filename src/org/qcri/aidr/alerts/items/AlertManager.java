@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 import org.qcri.aidr.alerts.sql.DBManager;
 
 import static org.qcri.aidr.alerts.sql.DBManager.createmaster_alerts;
-import static org.qcri.aidr.alerts.sql.DBManager.readalert;
+import static org.qcri.aidr.alerts.sql.DBManager.readmasteralert;
 import static org.qcri.aidr.alerts.sql.DBManager.readsignificantalert;
 import static org.qcri.aidr.alerts.sql.DBManager.readtime;
 
@@ -82,7 +82,7 @@ public class AlertManager {
             public void run() {
                 try {
                     getAlerts();
-                    readalert();
+                    readmasteralert();
                     readsignificantalert();
                     System.out.println("Time's up! Run over.");
 
