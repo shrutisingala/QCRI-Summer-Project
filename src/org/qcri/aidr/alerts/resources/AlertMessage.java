@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.qcri.aidr.alerts.items;
+package org.qcri.aidr.alerts.resources;
 
 
 /**
@@ -27,6 +27,8 @@ public class AlertMessage {
     float alertPointLong;
     String alertCalculationType;
     String alertCountry;
+    String alertSignificance;
+    String alertDescription;
     
 
   public int getAlertID() {
@@ -116,12 +118,28 @@ public class AlertMessage {
   public void setAlertCountry(String alertCountry) {
         this.alertCountry = alertCountry;
     }
+  
+  public String getAlertSignificance() {
+    return alertSignificance;
+  }
+  
+  public void setAlertSignificance(String alertSignificance) {
+        this.alertSignificance = alertSignificance;
+    }
+  
+  public String getAlertDescription() {
+    return alertDescription;
+  }
+  
+  public void setAlertDescription(String alertDescription) {
+        this.alertDescription = alertDescription;
+    }
 
   @Override
   public String toString() {
     
   
-    return "\n\"" + alertID + "\", \"" + alertType + "\", \"" + alertTime + "\", \"" + alertSeverityUnit + "\", \"" + alertSeverityValue + "\", \"" +alertPopulationUnit + "\", \"" +alertPopulationValue + "\", \"" + alertPointLat + "\", \"" + alertPointLong  + "\", \"" + alertCalculationType  + "\", \"" + alertCountry + "\"";
+    return "\n\"" + alertID + "\", \"" + alertType + "\", \"" + alertTime + "\", \"" + alertSeverityUnit + "\", \"" + alertSeverityValue + "\", \"" +alertPopulationUnit + "\", \"" +alertPopulationValue + "\", \"" + alertPointLat + "\", \"" + alertPointLong  + "\", \"" + alertCalculationType  + "\", \"" + alertSignificance + "\", \""+ alertCountry + "\"";
   
   }
 }

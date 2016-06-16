@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.qcri.aidr.alerts.items;
+package org.qcri.aidr.alerts.resources;
 
+import org.qcri.aidr.alerts.resources.AlertMessage;
+import org.qcri.aidr.alerts.resources.Alerts;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -65,6 +67,8 @@ public class RSSFeedParser {
             float alertPointLong = 0;
             String alertCalculationType = "";
             String alertCountry = "";
+            String alertSignificance = "white";
+            String alertDescription = "";
 
             // First create a new XMLInputFactory
             XMLInputFactory inputFactory = XMLInputFactory.newInstance();
@@ -168,6 +172,7 @@ public class RSSFeedParser {
                         message.setAlertPointLong(alertPointLong);
                         message.setAlertCalculationType(alertCalculationType);
                         message.setAlertCountry(alertCountry);
+                        message.setAlertDescription(alertDescription);
                         alert.getMessages().add(message);
                         event = eventReader.nextEvent();
                         continue;

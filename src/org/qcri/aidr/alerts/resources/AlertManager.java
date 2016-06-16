@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.qcri.aidr.alerts.items;
+package org.qcri.aidr.alerts.resources;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,12 +12,10 @@ import java.util.TimerTask;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.qcri.aidr.alerts.sql.DBManager;
-
-import static org.qcri.aidr.alerts.sql.DBManager.createmaster_alerts;
-import static org.qcri.aidr.alerts.sql.DBManager.readmasteralert;
-import static org.qcri.aidr.alerts.sql.DBManager.readsignificantalert;
-import static org.qcri.aidr.alerts.sql.DBManager.readtime;
+import static org.qcri.aidr.alerts.database.DBManager.createAlert;
+import static org.qcri.aidr.alerts.database.DBManager.readMasterAlerts;
+import static org.qcri.aidr.alerts.database.DBManager.readSignificantAlerts;
+import org.qcri.aidr.alerts.logic.SignificanceChecker;
 
 /**
  *
@@ -32,8 +30,8 @@ public class AlertManager {
         RSSFeedParser parser = new RSSFeedParser("http://www.gdacs.org/xml/rss.xml");
         Alerts alert = parser.readAlert();
         String publish_time = alert.entries.get(0).alertTime;
-        System.out.println("*********************" +publish_time);
-        
+        System.out.println("*********************" + publish_time);
+
         //String publish_time = "Sun, 5 June 2016 09:56:05 GMT";
         for (AlertMessage message : alert.getMessages()) {
             thisAlertTime = message.alertTime;
@@ -43,25 +41,26 @@ public class AlertManager {
 
         if (!lastAlertTime.equals(thisAlertTime)) {
 
-           //persistAlerts(alert);
-
+            //persistAlerts(alert);
         }
         persistAlerts(alert);
     }
 
     public static void persistAlerts(Alerts alert) {
+
         //System.out.println("MUDRA");
         for (AlertMessage message : alert.getMessages()) {
+            SignificanceChecker SC = new SignificanceChecker(message);
             System.out.println("in persist, before readtime");
-             readtime(message);  
-             System.out.println("in persist, after readtime");
+            createAlert(message);
+            System.out.println("in persist, after readtime");
             //createmaster_alerts(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverityUnit(), message.getAlertSeverityValue(), message.getAlertPopulationUnit(), message.getAlertPopulationValue(), message.getAlertPointLat(), message.getAlertPointLong(), message.getAlertCalculationType(), message.getAlertCountry());
-        
+
         }
     }
 
     public static String finder() throws FileNotFoundException {
-        //tring content = new Scanner(new File("C:\\Users\\lenovo\\Documents\\NetBeansProjects\\QCRI-Summer-Project\\XML Files\\Latest.txt")).useDelimiter("\\Z").next();
+        //String content = new Scanner(new File("C:\\Users\\lenovo\\Documents\\NetBeansProjects\\QCRI-Summer-Project\\XML Files\\Latest.txt")).useDelimiter("\\Z").next();
         String content = new Scanner(new File("/Users/shrutisingala/NetBeansProjects/QCRI-Summer-Project/XML Files/Latest.txt")).useDelimiter("\\Z").next();
         return content;
     }
@@ -82,8 +81,8 @@ public class AlertManager {
             public void run() {
                 try {
                     getAlerts();
-                    readmasteralert();
-                    readsignificantalert();
+                    readMasterAlerts();
+                    readSignificantAlerts();
                     System.out.println("Time's up! Run over.");
 
                 } catch (FileNotFoundException ex) {
@@ -93,8 +92,6 @@ public class AlertManager {
         }
 
     }
-    
-
 
     /**
      *
@@ -102,9 +99,8 @@ public class AlertManager {
      * @throws java.io.FileNotFoundException
      */
     public static void main(String args[]) throws FileNotFoundException {
-        
-       // DBManager db;
 
+        // DBManager db;
         fiveMinuteScheduler run = new fiveMinuteScheduler();
     }
 }
