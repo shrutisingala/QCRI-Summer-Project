@@ -13,10 +13,10 @@ public class DBManager {
 //http://www.tutorialspoint.com/jdbc/jdbc-create-tables.html 
     final private static String JDBC_URL = "jdbc:mysql://localhost:3306/alerts";
     final private static String USER = "root";
-    final private static String PASSWORD = "shruti";
-    //final private static String PASSWORD = "salvivado123";
+    //final private static String PASSWORD = "shruti";
+    final private static String PASSWORD = "salvivado123";
 
-    public static void createmaster_alerts(int id, String type, String time, String severityunit, float severityvalue, String populationunit, int populationvalue, float latitude, float longitude, String calculationtype, String country) {
+    public static void createmaster_alerts(int id, String type, String time, String severityunit, float severityvalue, String populationunit, int populationvalue, float latitude, float longitude, String calculationtype, String country, String significance) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -261,7 +261,7 @@ public class DBManager {
 
             if (!rs.next()) {
                 System.out.println("CREATING FIRST ALERT");
-                createmaster_alerts(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverityUnit(), message.getAlertSeverityValue(), message.getAlertPopulationUnit(), message.getAlertPopulationValue(), message.getAlertPointLat(), message.getAlertPointLong(), message.getAlertCalculationType(), message.getAlertCountry());
+                createmaster_alerts(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverityUnit(), message.getAlertSeverityValue(), message.getAlertPopulationUnit(), message.getAlertPopulationValue(), message.getAlertPointLat(), message.getAlertPointLong(), message.getAlertCalculationType(), message.getAlertCountry(), message.getAlertSignificance());
                 return;
             }
             int flag = 0;
@@ -294,7 +294,7 @@ public class DBManager {
 
             if (flag == 1) {
                 System.out.println("SHRUTI");
-                createmaster_alerts(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverityUnit(), message.getAlertSeverityValue(), message.getAlertPopulationUnit(), message.getAlertPopulationValue(), message.getAlertPointLat(), message.getAlertPointLong(), message.getAlertCalculationType(), message.getAlertCountry());
+                createmaster_alerts(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverityUnit(), message.getAlertSeverityValue(), message.getAlertPopulationUnit(), message.getAlertPopulationValue(), message.getAlertPointLat(), message.getAlertPointLong(), message.getAlertCalculationType(), message.getAlertCountry(), message.getAlertSignificance());
                 return;
             }
 
@@ -366,7 +366,7 @@ public class DBManager {
      * @param id
      * @param description
      */
-    public static void createsignificant_alerts(int id, String description) {
+    public static void createsignificant_alerts(int id, String description, String significance) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -378,12 +378,14 @@ public class DBManager {
             System.out.println("ENTERED SIGNIFICANT ALERTS TRY BLOCK");
             connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
             System.out.println("connection made");
-            preparedStatement = connection.prepareStatement("INSERT INTO significant_alerts VALUES(?,?)");
+            preparedStatement = connection.prepareStatement("INSERT INTO significant_alerts VALUES(?,?,?)");
             System.out.println("insert statement");
             preparedStatement.setInt(1, id);
             System.out.println("set1");
             preparedStatement.setString(2, description);
             System.out.println("set2");
+            preparedStatement.setString(3, significance);
+            System.out.println("set3");
 
             boolean b = preparedStatement.execute();
             System.out.println("preparedstatement executed");
