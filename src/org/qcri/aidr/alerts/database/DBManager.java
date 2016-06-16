@@ -1,11 +1,11 @@
-package org.qcri.aidr.alerts.sql;
+package org.qcri.aidr.alerts.database;
 
 //heyyaa
+import org.qcri.aidr.alerts.logic.EQSignificanceChecker;
+import org.qcri.aidr.alerts.resources.AlertMessage;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.qcri.aidr.alerts.items.*;
 
 public class DBManager {
 
@@ -16,7 +16,8 @@ public class DBManager {
     //final private static String PASSWORD = "shruti";
     final private static String PASSWORD = "salvivado123";
 
-    public static void createmaster_alerts(int id, String type, String time, String severityunit, float severityvalue, String populationunit, int populationvalue, float latitude, float longitude, String calculationtype, String country, String significance) {
+
+    public static void createMasterAlert(int id, String type, String time, String severityunit, float severityvalue, String populationunit, int populationvalue, float latitude, float longitude, String calculationtype, String country, String significance) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -25,7 +26,7 @@ public class DBManager {
             System.out.println("ENTERED TRY BLOCK");
             connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
             System.out.println("connection made");
-            preparedStatement = connection.prepareStatement("INSERT INTO master_alerts VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+            preparedStatement = connection.prepareStatement("INSERT INTO master_alerts VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
             System.out.println("insert statement");
             preparedStatement.setInt(1, id);
             System.out.println("set1");
@@ -49,6 +50,8 @@ public class DBManager {
             System.out.println("set10");
             preparedStatement.setString(11, country);
             System.out.println("set11");
+            preparedStatement.setString(12, significance);
+            System.out.println("set12");
             boolean b = preparedStatement.execute();
 
             System.out.println("preparedstatement executed");
@@ -64,7 +67,6 @@ public class DBManager {
         } finally {
             try {
                 System.out.println("BEFORE ENTERING SIG CHECKER");
-                SignificanceChecker(type, populationvalue, severityvalue);
                 preparedStatement.close();
                 connection.close();
             } catch (Exception e) {
@@ -101,7 +103,7 @@ public class DBManager {
      }
      }
      }*/
-    public static void readmasteralert() {
+    public static void readMasterAlerts() {
 
         Connection conn = null;
         Statement stmt = null;
@@ -172,9 +174,8 @@ public class DBManager {
         }//end try
         System.out.println("Goodbye!");
     }//end main
-    
-    
-    public static void readsignificantalert() {
+
+    public static void readSignificantAlerts() {
 
         Connection conn = null;
         Statement stmt = null;
@@ -191,17 +192,20 @@ public class DBManager {
             String sql = "SELECT * FROM significant_alerts";
             ResultSet rs = stmt.executeQuery(sql);
             //STEP 5: Extract data from result set
+            System.out.println("significantalert_id     significance     description");
+
             while (rs.next()) {
                 //Retrieve by column name
                 int id = rs.getInt("id");
-                String des = rs.getString("description");
+                String sig = rs.getString("significance");
+                String des=rs.getString("description");
                 
 
-                System.out.println("significantalert_id     description");
                 //Display values
-                System.out.print("\n" + id);
-                System.out.print("        " + des);
-               
+                System.out.print("\n           " + id);
+                System.out.print("                " + sig);
+                System.out.println("      "+des);
+
             }
             rs.close();
         } catch (SQLException se) {
@@ -228,16 +232,10 @@ public class DBManager {
         }//end try
         System.out.println("Goodbye!");
     }
-    
-    
 
-    public static void readtime(AlertMessage message) {
-        // static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-        // static final String JDBC_URL = "jdbc:mysql://localhost/STUDENTS";
+    public static void createAlert(AlertMessage message) {
         System.out.println(message);
-        //  Database credentials
-        // static final String USER = "username";
-        //static final String PASS = "password";
+
         Connection conn = null;
         Statement stmt = null;
 
@@ -261,8 +259,16 @@ public class DBManager {
 
             if (!rs.next()) {
                 System.out.println("CREATING FIRST ALERT");
-                createmaster_alerts(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverityUnit(), message.getAlertSeverityValue(), message.getAlertPopulationUnit(), message.getAlertPopulationValue(), message.getAlertPointLat(), message.getAlertPointLong(), message.getAlertCalculationType(), message.getAlertCountry(), message.getAlertSignificance());
-                return;
+
+                createMasterAlert(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverityUnit(), message.getAlertSeverityValue(), message.getAlertPopulationUnit(), message.getAlertPopulationValue(), message.getAlertPointLat(), message.getAlertPointLong(), message.getAlertCalculationType(), message.getAlertCountry(), message.getAlertSignificance());
+                int id;
+                if (message.getAlertSignificance().equalsIgnoreCase("orange") || message.getAlertSignificance().equalsIgnoreCase("red")) {
+                    System.out.println("before ID EXTRACTOR");
+                    id = IDExtractor();
+                    System.out.println("ID in Create : " + id);
+                    createSignificantAlert(id, message.getAlertSignificance(), message.getAlertDescription() );
+                }
+
             }
             int flag = 0;
             System.out.println("before while loop");
@@ -294,8 +300,16 @@ public class DBManager {
 
             if (flag == 1) {
                 System.out.println("SHRUTI");
-                createmaster_alerts(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverityUnit(), message.getAlertSeverityValue(), message.getAlertPopulationUnit(), message.getAlertPopulationValue(), message.getAlertPointLat(), message.getAlertPointLong(), message.getAlertCalculationType(), message.getAlertCountry(), message.getAlertSignificance());
-                return;
+
+                createMasterAlert(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverityUnit(), message.getAlertSeverityValue(), message.getAlertPopulationUnit(), message.getAlertPopulationValue(), message.getAlertPointLat(), message.getAlertPointLong(), message.getAlertCalculationType(), message.getAlertCountry(), message.getAlertSignificance());
+                int id;
+                if (message.getAlertSignificance().equalsIgnoreCase("orange") || message.getAlertSignificance().equalsIgnoreCase("red")) {
+                    System.out.println("before ID EXTRACTOR");
+                    id = IDExtractor();
+                    System.out.println("ID in Create : " + id);
+                    createSignificantAlert(id, message.getAlertSignificance(), message.getAlertDescription() );
+                }
+
             }
 
             System.out.println("after while loop");
@@ -335,7 +349,7 @@ public class DBManager {
 
     }
 
-    public static void deletealert(int alert_id) {
+    public static void deleteAlert(int alert_id) {
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -366,7 +380,8 @@ public class DBManager {
      * @param id
      * @param description
      */
-    public static void createsignificant_alerts(int id, String description, String significance) {
+    public static void createSignificantAlert(int id, String significance, String description) {
+
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -382,9 +397,9 @@ public class DBManager {
             System.out.println("insert statement");
             preparedStatement.setInt(1, id);
             System.out.println("set1");
-            preparedStatement.setString(2, description);
+            preparedStatement.setString(2, significance);
             System.out.println("set2");
-            preparedStatement.setString(3, significance);
+            preparedStatement.setString(3, description);
             System.out.println("set3");
 
             boolean b = preparedStatement.execute();
@@ -412,10 +427,11 @@ public class DBManager {
 
     }
 
-    public static void SignificanceChecker(String type, int pop_value, float sev_value) {
+    public static int IDExtractor() {
 
         Connection conn = null;
         Statement stmt = null;
+        int i = 0;
 
         try {
             System.out.println("IN SIGNIFICANT ALERTS CHECKER");
@@ -430,19 +446,10 @@ public class DBManager {
 
             int id = rs.getInt("id");
             System.out.println(id);
-            if ("EQ".equals(type)) {
-                System.out.println("ENTERED IF");
-                EQSignificanceChecker EQ = new EQSignificanceChecker(id, pop_value, sev_value);
-                if (EQ.Rule1()) {
-                    createsignificant_alerts(id, "pop btwn 10k & 50k with mag>=5");
-                } else if (EQ.Rule2()) {
-                    createsignificant_alerts(id, "pop btwn 50k & 100k with mag>=4.5");
-                } else if (EQ.Rule3()) {
-                    createsignificant_alerts(id, "pop>100k with mag>=4");
-                }
+            i = id;
 
-            }
             rs.close();
+            return id;
 
         } catch (SQLException se) {
             //Handle errors for JDBC
@@ -471,6 +478,9 @@ public class DBManager {
         }
 
         System.out.println("Goodbye!");
+        System.out.println(i);
+
+        return i;
 
     }
 
