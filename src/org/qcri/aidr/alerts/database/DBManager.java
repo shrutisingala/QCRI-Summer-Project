@@ -13,8 +13,9 @@ public class DBManager {
 //http://www.tutorialspoint.com/jdbc/jdbc-create-tables.html 
     final private static String JDBC_URL = "jdbc:mysql://localhost:3306/alerts";
     final private static String USER = "root";
-    final private static String PASSWORD = "shruti";
-    //final private static String PASSWORD = "salvivado123";
+    //final private static String PASSWORD = "shruti";
+    final private static String PASSWORD = "salvivado123";
+
 
     public static void createMasterAlert(int id, String type, String time, String severityunit, float severityvalue, String populationunit, int populationvalue, float latitude, float longitude, String calculationtype, String country, String significance) {
         Connection connection = null;
@@ -258,6 +259,7 @@ public class DBManager {
 
             if (!rs.next()) {
                 System.out.println("CREATING FIRST ALERT");
+
                 createMasterAlert(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverityUnit(), message.getAlertSeverityValue(), message.getAlertPopulationUnit(), message.getAlertPopulationValue(), message.getAlertPointLat(), message.getAlertPointLong(), message.getAlertCalculationType(), message.getAlertCountry(), message.getAlertSignificance());
                 int id;
                 if (message.getAlertSignificance().equalsIgnoreCase("orange") || message.getAlertSignificance().equalsIgnoreCase("red")) {
@@ -266,6 +268,7 @@ public class DBManager {
                     System.out.println("ID in Create : " + id);
                     createSignificantAlert(id, message.getAlertSignificance(), message.getAlertDescription() );
                 }
+
             }
             int flag = 0;
             System.out.println("before while loop");
@@ -297,6 +300,7 @@ public class DBManager {
 
             if (flag == 1) {
                 System.out.println("SHRUTI");
+
                 createMasterAlert(message.getAlertID(), message.getAlertType(), message.getAlertTime(), message.getAlertSeverityUnit(), message.getAlertSeverityValue(), message.getAlertPopulationUnit(), message.getAlertPopulationValue(), message.getAlertPointLat(), message.getAlertPointLong(), message.getAlertCalculationType(), message.getAlertCountry(), message.getAlertSignificance());
                 int id;
                 if (message.getAlertSignificance().equalsIgnoreCase("orange") || message.getAlertSignificance().equalsIgnoreCase("red")) {
@@ -305,6 +309,7 @@ public class DBManager {
                     System.out.println("ID in Create : " + id);
                     createSignificantAlert(id, message.getAlertSignificance(), message.getAlertDescription() );
                 }
+
             }
 
             System.out.println("after while loop");
@@ -376,6 +381,7 @@ public class DBManager {
      * @param description
      */
     public static void createSignificantAlert(int id, String significance, String description) {
+
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
