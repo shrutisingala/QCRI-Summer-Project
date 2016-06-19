@@ -5,8 +5,6 @@
  */
 package org.qcri.aidr.alerts.resources;
 
-import org.qcri.aidr.alerts.resources.AlertMessage;
-import org.qcri.aidr.alerts.resources.Alerts;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;

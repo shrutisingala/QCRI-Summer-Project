@@ -1,11 +1,8 @@
 package org.qcri.aidr.alerts.database;
 
 //heyyaa
-import org.qcri.aidr.alerts.logic.EQSignificanceChecker;
 import org.qcri.aidr.alerts.resources.AlertMessage;
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class DBManager {
 
@@ -61,7 +58,6 @@ public class DBManager {
             }
         } catch (SQLException sqlEx) {
 
-            sqlEx.printStackTrace();
             System.out.println("hey there");
             System.exit(1);
         } finally {
@@ -293,8 +289,6 @@ public class DBManager {
                     return;
                 } else {
                     flag = 1;
-                    //System.out.println("ALERT REPEATING");
-                    continue;
                 }
             } while (rs.next());
 
@@ -378,6 +372,7 @@ public class DBManager {
     /**
      *
      * @param id
+     * @param significance
      * @param description
      */
     public static void createSignificantAlert(int id, String significance, String description) {

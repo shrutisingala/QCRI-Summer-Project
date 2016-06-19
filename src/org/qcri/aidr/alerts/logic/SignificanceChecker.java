@@ -6,8 +6,6 @@
 package org.qcri.aidr.alerts.logic;
 
 import org.qcri.aidr.alerts.resources.AlertMessage;
-import org.qcri.aidr.alerts.logic.EQSignificanceChecker;
-import org.qcri.aidr.alerts.resources.Alerts;
 
 /**
  *
@@ -21,7 +19,7 @@ public class SignificanceChecker {
     public SignificanceChecker(AlertMessage message) {
 
         if (message.getAlertType().equalsIgnoreCase("EQ")) {
-            EQ = new EQSignificanceChecker(message.getAlertPopulationValue(), message.getAlertSeverityValue());
+            EQ = new EQSignificanceChecker(message.getAlertPopulationValue(), message.getAlertSeverityValue(), message.getAlertCountry());
             arr = EQ.setSignificance();
             message.setAlertSignificance(arr[0]);
             message.setAlertDescription(arr[1]);
