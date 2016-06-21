@@ -72,9 +72,24 @@ public class AlertManager {
 
         public fiveMinuteScheduler() {
             timer = new Timer();
-            timer.schedule(new RemindTask(),
-                    0, //initial delay
-                    1 * 1000 * 60 * 5);  //subsequent rate
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+
+                    try {
+                        getAlerts();
+                        readMasterAlerts();
+                        readSignificantAlerts();
+                        System.out.println("Time's up! Run over.");
+
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(AlertManager.class.getName()).log(Level.SEVERE, null, ex);
+
+                    } catch (Exception e) {
+                        System.out.println("dummy catch");
+                    }
+                }
+            }, 0, 1 * 1000 * 60 * 5);  //subsequent rate
         }
 
         class RemindTask extends TimerTask {

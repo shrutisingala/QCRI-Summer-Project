@@ -170,6 +170,7 @@ public class RSSFeedParser {
                         message.setAlertPointLong(alertPointLong);
                         message.setAlertCalculationType(alertCalculationType);
                         message.setAlertCountry(alertCountry);
+                        message.setAlertSignificance(alertSignificance);
                         message.setAlertDescription(alertDescription);
                         alert.getMessages().add(message);
                         event = eventReader.nextEvent();
